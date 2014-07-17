@@ -1,0 +1,45 @@
+[
+    {
+        "caption": "首选项(N)",
+        "mnemonic": "n",
+        "id": "preferences",
+        "children":
+        [
+            {
+                "caption": "插件设置(P)",
+                "mnemonic": "P",
+                "id": "package-settings",
+                "children":
+                [
+                    {
+                        "caption": "Package Control",
+                        "children":
+                        [
+                            {
+                                "command": "open_file", "args":
+                                {
+                                    "file": "${packages}/Package Control/Package Control.sublime-settings"
+                                },
+                                "caption": "设置 – 默认"
+                            },
+                            {
+                                "command": "open_file", "args":
+                                {
+                                    "file": "${packages}/User/Package Control.sublime-settings"
+                                },
+                                "caption": "设置 – 用户"
+                            },
+                            { "caption": "-" }
+                        ]
+                    }
+                ]
+            },
+            {
+                "caption": "插件控制(C)",
+                "mnemonic": "C",
+                "command": "show_overlay",
+                "args": {"overlay": "command_palette", "text": "Package Control: "}
+            }
+        ]
+    }
+]
