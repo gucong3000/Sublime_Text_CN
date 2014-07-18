@@ -38,8 +38,9 @@ Sublime Text 2/3 Chinese language pack
 
 安装Package Control之后，复制此项目的`Data`文件夹到：
 
-- 绿色版 复制到安装目录
-- 安装版 复制Data文件夹下所有文件到`%APPDATA%/Sublime Text 2/`下
+- 绿色版		复制到安装目录
+- 安装版		复制Data文件夹下所有文件到`%APPDATA%/Sublime Text 2/`下
+- linux版	复制Data文件夹下所有文件到`/home/%yourname%/.config/sublime-text-2/`
 
 **适用于3.0 beta build 3059**
 
