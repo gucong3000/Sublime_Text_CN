@@ -1,4 +1,4 @@
-Sublime Text CN
+[Sublime Text](http://www.sublimetext.com/) CN
 ===============
 
 Sublime Text 2/3 Chinese language pack
@@ -29,6 +29,8 @@ Sublime Text 2/3 Chinese language pack
 - JsFormat：JS格式化插件，快捷键：Ctrl+Alt+F
 - HTML-CSS-JS Prettify：HTML和CSS代码格式化，Ctrl+Alt+H
 - jsHint Gutter：js代码风格检查
+- DocBlockr:代码自动注释生成
+- jQuery：jQuery语法提示
 - LESS：LESS语法高亮
 - SASS：SASS语法高亮
 
