@@ -6,6 +6,6 @@
 	{ "caption": "-", "id": "folder_commands" },
 	{ "caption": "新建文件夹…", "command": "new_folder", "args": {"dirs": []} },
 	{ "caption": "删除文件夹", "command": "delete_folder", "args": {"dirs": []} },
-	{ "caption": "查找文件夹…", "command": "find_in_folder", "args": {"dirs": []} },
+	{ "caption": "在文件夹中查找…", "command": "find_in_folder", "args": {"dirs": []} },
 	{ "caption": "-", "id": "end" }
 ]

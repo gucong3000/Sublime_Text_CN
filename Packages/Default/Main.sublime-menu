@@ -81,7 +81,7 @@
             { "command": "clone_file", "caption": "新标签中打开当前文件(E)", "mnemonic": "e" },
             { "command": "save", "caption": "保存(S)", "mnemonic": "S" },
             {
-                "caption": "保存编码…",
+                "caption": "保存使用编码",
                 "children":
                 [
                     { "caption": "UTF-8", "command": "save", "args": {"encoding": "utf-8" } },
@@ -179,8 +179,8 @@
                 "id": "comment",
                 "children":
                 [
-                    { "command": "toggle_comment", "args": {"block": false}, "caption": "开启/关闭注释整行" },
-                    { "command": "toggle_comment", "args": {"block": true}, "caption": "开启/关闭注释已选择内容" }
+                    { "command": "toggle_comment", "args": {"block": false}, "caption": "开启/关闭行注释" },
+                    { "command": "toggle_comment", "args": {"block": true}, "caption": "开启/关闭段注释" }
                 ]
             },
             {
@@ -188,8 +188,8 @@
                 "id": "text",
                 "children":
                 [
-                    { "command": "run_macro_file", "args": {"file": "Packages/Default/Add Line Before.sublime-macro"}, "caption": "插入行前" },
-                    { "command": "run_macro_file", "args": {"file": "Packages/Default/Add Line.sublime-macro"}, "caption": "插入行后" },
+                    { "command": "run_macro_file", "args": {"file": "Packages/Default/Add Line Before.sublime-macro"}, "caption": "插入至行前" },
+                    { "command": "run_macro_file", "args": {"file": "Packages/Default/Add Line.sublime-macro"}, "caption": "插入至行后" },
                     { "caption": "-" },
                     { "command": "delete_word", "args": { "forward": true }, "caption": "向后删除单词" },
                     { "command": "delete_word", "args": { "forward": false }, "caption": "向前删除单词" },
@@ -262,12 +262,12 @@
                 "id": "wrap",
                 "children":
                 [
-                    { "command": "wrap_lines", "caption": "切换字符段落标尺" },
-                    { "command": "wrap_lines", "args": {"width": 70}, "caption": "切换 70 个字符的段落" },
-                    { "command": "wrap_lines", "args": {"width": 78}, "caption": "切换 78 个字符的段落" },
-                    { "command": "wrap_lines", "args": {"width": 80}, "caption": "切换 80 个字符的段落" },
-                    { "command": "wrap_lines", "args": {"width": 100}, "caption": "切换 100 个字符的段落" },
-                    { "command": "wrap_lines", "args": {"width": 120}, "caption": "切换 120 个字符的段落" }
+                    { "command": "wrap_lines", "caption": "换行段落标尺" },
+                    { "command": "wrap_lines", "args": {"width": 70}, "caption": "换行段落为  70 个字符" },
+                    { "command": "wrap_lines", "args": {"width": 78}, "caption": "换行段落为  78 个字符" },
+                    { "command": "wrap_lines", "args": {"width": 80}, "caption": "换行段落为  80 个字符" },
+                    { "command": "wrap_lines", "args": {"width": 100}, "caption": "换行段落为 100 个字符" },
+                    { "command": "wrap_lines", "args": {"width": 120}, "caption": "换行段落为 120 个字符" }
                 ]
             },
             { "command": "auto_complete", "caption": "显示完成" },
@@ -276,7 +276,7 @@
             { "command": "sort_lines", "args": {"case_sensitive": false}, "caption": "按行排序(S)", "mnemonic": "S" },
             { "command": "sort_lines", "args": {"case_sensitive": true}, "caption": "按行排序(区分大小写)" },
             {
-                "caption": "更改行的序列",
+                "caption": "重新排列行序",
                 "children":
                 [
                     { "command": "permute_lines", "args": {"operation": "reverse"}, "caption": "反向" },
@@ -285,7 +285,7 @@
                 ]
             },
             {
-                "caption": "更改选择内容的序列",
+                "caption": "重新排列选择",
                 "children":
                 [
                     { "command": "sort_selection", "args": {"case_sensitive": false}, "caption": "排序" },
@@ -305,19 +305,19 @@
         "children":
         [
             { "command": "split_selection_into_lines", "caption": "拆分成行" },
-            { "command": "select_lines", "args": {"forward": false}, "caption": "添加上一行" },
-            { "command": "select_lines", "args": {"forward": true}, "caption": "添加下一行" },
+            { "command": "select_lines", "args": {"forward": false}, "caption": "添加至前行" },
+            { "command": "select_lines", "args": {"forward": true}, "caption": "添加至后行" },
             { "command": "single_selection", "caption": "单独选择" },
-            { "command": "反向选择" },
+            { "command": "invert_selection", "caption": "反向选择"},
             { "caption": "-" },
             { "command": "select_all", "caption": "选择全部" },
-            { "command": "expand_selection", "args": {"to": "line"}, "caption": "展开选择整行" },
-            { "command": "find_under_expand", "caption": "展开选择单词" },
-            { "command": "expand_selection_to_paragraph", "caption": "展开选择段落" },
-            { "command": "expand_selection", "args": {"to": "scope"}, "caption": "展开选择范围" },
-            { "command": "expand_selection", "args": {"to": "brackets"}, "caption": "展开选择括号的内容" },
-            { "command": "expand_selection", "args": {"to": "indentation"}, "caption": "展开选择缩进的内容" },
-            { "command": "expand_selection", "args": {"to": "tag"}, "caption": "展开选择标签的内容" }
+            { "command": "expand_selection", "args": {"to": "line"}, "caption": "扩展选定的行" },
+            { "command": "find_under_expand", "caption": "扩展选定的词" },
+            { "command": "expand_selection_to_paragraph", "caption": "扩展选定的段" },
+            { "command": "expand_selection", "args": {"to": "scope"}, "caption": "扩展所选段落" },
+            { "command": "expand_selection", "args": {"to": "brackets"}, "caption": "扩展所选括号" },
+            { "command": "expand_selection", "args": {"to": "indentation"}, "caption": "扩展所选缩进" },
+            { "command": "expand_selection", "args": {"to": "tag"}, "caption": "扩展所选标签" }
         ]
     },
     {
@@ -348,7 +348,7 @@
                 "mnemonic": "R",
                 "children":
                 [
-                    { "command": "show_panel", "args": {"panel": "output.find_results"}, "caption": "显示结果面板" },
+                    { "command": "show_panel", "args": {"panel": "output.find_results"}, "caption": "显示查找结果" },
                     { "command": "next_result", "caption": "下一个结果" },
                     { "command": "prev_result", "caption": "上一个结果" }
                 ]
@@ -520,7 +520,7 @@
                 ]
             },
             {
-                "caption": "移动文件到分组(M)",
+                "caption": "将文件移至分组(M)",
                 "mnemonic": "M",
                 "children":
                 [
@@ -582,11 +582,11 @@
                 [
                     { "command": "set_setting", "args": {"setting": "wrap_width", "value": 0}, "caption": "自动切换模式", "checkbox": true },
                     { "caption": "-" },
-                    { "command": "set_setting", "args": {"setting": "wrap_width", "value": 70}, "caption": "70", "checkbox": true },
-                    { "command": "set_setting", "args": {"setting": "wrap_width", "value": 78}, "caption": "78", "checkbox": true },
-                    { "command": "set_setting", "args": {"setting": "wrap_width", "value": 80}, "caption": "80", "checkbox": true },
-                    { "command": "set_setting", "args": {"setting": "wrap_width", "value": 100}, "caption": "100", "checkbox": true },
-                    { "command": "set_setting", "args": {"setting": "wrap_width", "value": 120}, "caption": "120", "checkbox": true }
+                    { "command": "set_setting", "args": {"setting": "wrap_width", "value": 70}, "caption": " 70 个字符宽度", "checkbox": true },
+                    { "command": "set_setting", "args": {"setting": "wrap_width", "value": 78}, "caption": " 78 个字符宽度", "checkbox": true },
+                    { "command": "set_setting", "args": {"setting": "wrap_width", "value": 80}, "caption": " 80 个字符宽度", "checkbox": true },
+                    { "command": "set_setting", "args": {"setting": "wrap_width", "value": 100}, "caption": "100 个字符宽度", "checkbox": true },
+                    { "command": "set_setting", "args": {"setting": "wrap_width", "value": 120}, "caption": "120 个字符宽度", "checkbox": true }
                 ]
             },
             {
@@ -595,11 +595,11 @@
                 [
                     { "command": "set_setting", "args": {"setting": "rulers", "value": []}, "caption": "无", "checkbox": true },
                     { "caption": "-" },
-                    { "command": "set_setting", "args": {"setting": "rulers", "value": [70]}, "caption": "70", "checkbox": true },
-                    { "command": "set_setting", "args": {"setting": "rulers", "value": [78]}, "caption": "78", "checkbox": true },
-                    { "command": "set_setting", "args": {"setting": "rulers", "value": [80]}, "caption": "80", "checkbox": true },
-                    { "command": "set_setting", "args": {"setting": "rulers", "value": [100]}, "caption": "100", "checkbox": true },
-                    { "command": "set_setting", "args": {"setting": "rulers", "value": [120]}, "caption": "120", "checkbox": true }
+                    { "command": "set_setting", "args": {"setting": "rulers", "value": [70]}, "caption": " 70  个字符宽度", "checkbox": true },
+                    { "command": "set_setting", "args": {"setting": "rulers", "value": [78]}, "caption": " 78  个字符宽度", "checkbox": true },
+                    { "command": "set_setting", "args": {"setting": "rulers", "value": [80]}, "caption": " 80  个字符宽度", "checkbox": true },
+                    { "command": "set_setting", "args": {"setting": "rulers", "value": [100]}, "caption": "100 个字符宽度", "checkbox": true },
+                    { "command": "set_setting", "args": {"setting": "rulers", "value": [120]}, "caption": "120 个字符宽度", "checkbox": true }
                 ]
             },
             { "caption": "-" },
@@ -638,10 +638,10 @@
                     { "command": "next_view", "caption": "下一个文件" },
                     { "command": "prev_view", "caption": "上一个文件" },
                     { "caption": "-" },
-                    { "command": "next_view_in_stack", "caption": "在堆栈中的下一个文件" },
-                    { "command": "prev_view_in_stack", "caption": "在堆栈中的上一个文件" },
+                    { "command": "next_view_in_stack", "caption": "堆栈中的下一个文件" },
+                    { "command": "prev_view_in_stack", "caption": "堆栈中的上一个文件" },
                     { "caption": "-" },
-                    { "command": "switch_file", "args": {"extensions": ["cpp", "cxx", "cc", "c", "hpp", "hxx", "h", "ipp", "inl", "m", "mm"]}, "caption": "开关标题/执行(H)", "mnemonic": "H" },
+                    { "command": "switch_file", "args": {"extensions": ["cpp", "cxx", "cc", "c", "hpp", "hxx", "h", "ipp", "inl", "m", "mm"]}, "caption": "切换文件头/执行(H)", "mnemonic": "H" },
                     { "caption": "-" },
                     { "command": "select_by_index", "args": { "index": 0 } },
                     { "command": "select_by_index", "args": { "index": 1 } },
@@ -698,7 +698,7 @@
                 ]
             },
             { "caption": "-" },
-            { "command": "move_to", "args": {"to": "brackets"}, "caption": "跳转到匹配的括号" }
+            { "command": "move_to", "args": {"to": "brackets"}, "caption": "跳转至匹配的括号" }
         ]
     },
     {
@@ -708,14 +708,14 @@
         "children":
         [
             { "command": "show_overlay", "args": {"overlay": "command_palette"}, "caption": "命令面板…" },
-            { "command": "show_overlay", "args": {"overlay": "command_palette", "text": "Snippet: "}, "caption": "代码段…" },
+            { "command": "show_overlay", "args": {"overlay": "command_palette", "text": "Snippet: "}, "caption": "代码片段…" },
             { "caption": "-", "id": "build" },
             {
                 "caption": "编译系统(U)",
                 "mnemonic": "u",
                 "children":
                 [
-                    { "command": "set_build_system", "args": { "file": "" }, "caption": "自动模式", "checkbox": true },
+                    { "command": "set_build_system", "args": { "file": "" }, "caption": "自动编译", "checkbox": true },
                     { "caption": "-" },
                     { "command": "set_build_system", "args": {"index": 0}, "checkbox": true },
                     { "command": "set_build_system", "args": {"index": 1}, "checkbox": true },
@@ -730,8 +730,8 @@
                     { "command": "new_build_system", "caption": "新编译系统…" }
                 ]
             },
-            { "command": "build", "caption": "编译(B)", "mnemonic": "B" },
-            { "command": "build", "args": {"variant": "Run"}, "mnemonic": "R" },
+            { "command": "build", "caption": "立即编译(B)", "mnemonic": "B" },
+            { "command": "build", "args": {"variant": "Run"}, "caption": "运行(R)","mnemonic": "R" },
             { "command": "exec", "args": {"kill": true}, "caption": "取消编译(C)", "mnemonic": "C" },
             {
                 "caption": "编译结果(R)",
@@ -743,9 +743,9 @@
                     { "command": "prev_result", "caption": "Previous Result", "caption": "上一个结果(P)", "mnemonic": "P" }
                 ]
             },
-            { "command": "toggle_save_all_on_build", "caption": "保存所有的编译(A)", "mnemonic": "A", "checkbox": true },
+            { "command": "toggle_save_all_on_build", "caption": "保存所有编译(A)", "mnemonic": "A", "checkbox": true },
             { "caption": "-", "id": "macros" },
-            { "command": "toggle_record_macro","caption": "录制宏(M)", "mnemonic": "M" },
+            { "command": "toggle_record_macro", "caption": "录制宏(M)", "mnemonic": "M" },
             { "command": "run_macro", "caption": "播放宏(P)", "mnemonic": "P" },
             { "command": "save_macro", "caption": "保存宏(V)…", "mnemonic": "v" },
             {
@@ -754,7 +754,7 @@
             },
             { "caption": "-" },
             { "command": "new_plugin", "caption": "新插件…" },
-            { "command": "new_snippet", "caption": "新代码段…" },
+            { "command": "new_snippet", "caption": "新代码片段…" },
             { "caption": "-", "id": "end" }
         ]
     },
@@ -856,7 +856,7 @@
                 ]
             },
             {
-                "caption": "主题方案",
+                "caption": "配色方案",
                 "children": [ { "command": "$color_schemes" } ]
             }
         ]
@@ -870,9 +870,9 @@
             { "command": "open_url", "args": {"url": "http://www.sublimetext.com/docs/3/"}, "caption": "帮助文档" },
             { "command": "open_url", "args": {"url": "http://twitter.com/sublimehq"}, "caption": "推特" },
             { "caption": "-" },
-            { "command": "purchase_license", "caption": "购买许可证"},
+            { "command": "purchase_license", "caption": "购买许可证" },
             { "command": "show_license_window", "caption": "输入许可证" },
-            { "command": "remove_license", "caption": "删除许可证"},
+            { "command": "remove_license", "caption": "删除许可证" },
             { "caption": "-" },
             { "command": "update_check", "caption": "检查更新…", "platform": "!Linux" },
             { "command": "show_about_window", "caption": "关于 Sublime Text (A)", "mnemonic": "A" }

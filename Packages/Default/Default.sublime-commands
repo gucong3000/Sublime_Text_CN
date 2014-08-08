@@ -1,0 +1,129 @@
+[
+    {
+        "caption": "Word Wrap: Toggle→切换",
+        "command": "toggle_setting",
+        "args": {"setting": "word_wrap"}
+    },
+    {
+        "caption": "Convert Case: Upper Case→大写模式",
+        "command": "upper_case"
+    },
+    {
+        "caption": "Convert Case: Lower Case→小写模式",
+        "command": "lower_case"
+    },
+    {
+        "caption": "Convert Case: Title Case→首字母大写",
+        "command": "title_case"
+    },
+    {
+        "caption": "Convert Case: Swap Case→交换大小写",
+        "command": "swap_case"
+    },
+
+    { "command": "toggle_comment", "args": {"block": false}, "caption": "Toggle Comment→开启/关闭注释" },
+    { "command": "toggle_comment", "args": {"block": true}, "caption": "Toggle Block Comment→开启/关闭块注释" },
+
+    { "command": "toggle_bookmark", "caption": "Bookmarks: Toggle→切换" },
+    { "command": "next_bookmark", "caption": "Bookmarks: Select Next→选定​​下一个" },
+    { "command": "prev_bookmark", "caption": "Bookmarks: Select Previous→选定​​上一个" },
+    { "command": "clear_bookmarks", "caption": "Bookmarks: Clear All→全部清除" },
+    { "command": "select_all_bookmarks", "caption": "Bookmarks: Select All→全选" },
+
+    { "caption": "Indentation: Convert to Tabs→转换为标签", "command": "unexpand_tabs", "args": {"set_translate_tabs": true} },
+    { "caption": "Indentation: Convert to Spaces→转换为空格", "command": "expand_tabs", "args": {"set_translate_tabs": true} },
+    { "caption": "Indentation: Reindent Lines→重新缩进行", "command": "reindent", "args": {"single_line": false} },
+
+    { "caption": "View: Toggle Side Bar→切换侧栏", "command": "toggle_side_bar" },
+    { "caption": "View: Toggle Open Files in Side Bar→切换侧栏打开文件", "command": "toggle_show_open_files" },
+    { "caption": "View: Toggle Minimap→切换小地图", "command": "toggle_minimap" },
+    { "caption": "View: Toggle Tabs→切换标签", "command": "toggle_tabs" },
+    { "caption": "View: Toggle Status Bar→切换状态栏", "command": "toggle_status_bar" },
+    { "caption": "View: Toggle Menu→切换菜单", "command": "toggle_menu" },
+
+    { "caption": "Project: Save As→另存为", "command": "save_project_and_workspace_as" },
+    { "caption": "Project: Close→关闭", "command": "close_workspace" },
+    { "caption": "Project: Add Folder→添加文件夹", "command": "prompt_add_folder" },
+    { "caption": "Project: Refresh Folders→刷新文件夹", "command": "refresh_folder_list" },
+
+    { "caption": "Preferences: Settings - Default→设置 - 默认", "command": "open_file", "args": {"file": "${packages}/Default/Preferences.sublime-settings"} },
+    { "caption": "Preferences: Settings - User→设置 - 用户", "command": "open_file", "args": {"file": "${packages}/User/Preferences.sublime-settings"} },
+    { "caption": "Preferences: Browse Packages→浏览程序包", "command": "open_dir", "args": {"dir": "$packages"} },
+
+    {
+        "caption": "Preferences: Key Bindings - Default→按键绑定 - 默认",
+        "command": "open_file", "args":
+        {
+            "file": "${packages}/Default/Default (Windows).sublime-keymap",
+            "platform": "Windows"
+        }
+    },
+    {
+        "caption": "Preferences: Key Bindings - Default→按键绑定 - 默认",
+        "command": "open_file", "args":
+        {
+            "file": "${packages}/Default/Default (OSX).sublime-keymap",
+            "platform": "OSX"
+        }
+    },
+    {
+        "caption": "Preferences: Key Bindings - Default→按键绑定 - 默认",
+        "command": "open_file", "args":
+        {
+            "file": "${packages}/Default/Default (Linux).sublime-keymap",
+            "platform": "Linux"
+        }
+    },
+    {
+        "caption": "Preferences: Key Bindings - User→按键绑定 - 用户",
+        "command": "open_file", "args":
+        {
+            "file": "${packages}/User/Default (Windows).sublime-keymap",
+            "platform": "Windows"
+        }
+    },
+    {
+        "caption": "Preferences: Key Bindings - User→按键绑定 - 用户",
+        "command": "open_file", "args":
+        {
+            "file": "${packages}/User/Default (OSX).sublime-keymap",
+            "platform": "OSX"
+        }
+    },
+    {
+        "caption": "Preferences: Key Bindings - User→按键绑定 - 用户",
+        "command": "open_file", "args":
+        {
+            "file": "${packages}/User/Default (Linux).sublime-keymap",
+            "platform": "Linux"
+        }
+    },
+
+    { "caption": "File: Save All→全部保存", "command": "save_all" },
+    { "caption": "File: Revert→还原", "command": "revert" },
+    { "caption": "File: New View into File→新视图查看文件", "command": "clone_file" },
+    { "caption": "File: Close All→全部关闭", "command": "close_all" },
+
+    { "caption": "HTML: Wrap Selection With Tag→选定内容使用换行标签", "command": "insert_snippet", "args": { "name": "Packages/XML/long-tag.sublime-snippet" } },
+    { "caption": "HTML: Encode Special Characters→特殊字符进行编码", "command": "encode_html_entities" },
+
+    { "caption": "Rot13 Selection→Rot13 选项", "command": "rot13" },
+
+    { "caption": "Sort Lines→行排序", "command": "sort_lines", "args": {"case_sensitive": false} },
+    { "caption": "Sort Lines (Case Sensitive)→行排序 (区分大小写)", "command": "sort_lines", "args": {"case_sensitive": true} },
+
+    { "caption": "Permute Lines: Reverse→反向", "command": "permute_lines", "args": {"operation": "reverse"} },
+    { "caption": "Permute Lines: Unique→唯一", "command": "permute_lines", "args": {"operation": "unique"} },
+    { "caption": "Permute Lines: Shuffle→无序", "command": "permute_lines", "args": {"operation": "shuffle"} },
+
+    { "caption": "Permute Selections: Sort→排序", "command": "sort_selection", "args": {"case_sensitive": false} },
+    { "caption": "Permute Selections: Sort (Case Sensitive)→排序 (区分大小写)", "command": "sort_selection", "args": {"case_sensitive": true} },
+    { "caption": "Permute Selections: Reverse→反向", "command": "permute_selection", "args": {"operation": "reverse"} },
+    { "caption": "Permute Selections: Unique→唯一", "command": "permute_selection", "args": {"operation": "unique"} },
+    { "caption": "Permute Selections: Shuffle→无序", "command": "permute_selection", "args": {"operation": "shuffle"} },
+
+    { "caption": "Code Folding: Unfold All→展开全部", "command": "unfold_all" },
+    { "caption": "Code Folding: Fold Tag Attributes→折叠标签属性", "command": "fold_tag_attributes" },
+
+    { "caption": "About→关于", "command": "show_about_window" }
+]
