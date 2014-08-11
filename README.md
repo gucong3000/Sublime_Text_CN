@@ -7,11 +7,12 @@ Sublime Text 2/3 Chinese language pack
 
 我们用sublime几乎都会首先安装这个插件，这个插件是管理插件的功能，先安装它，再安装其他插件就方便了。
 
-[在线安装](https://sublime.wbond.net/installation)
-
-[离线安装包](https://sublime.wbond.net/Package%20Control.sublime-package)
+- [在线安装](https://sublime.wbond.net/installation)
+- [离线安装包](https://sublime.wbond.net/Package%20Control.sublime-package)
 
 ## 插件推荐 ##
+
+安装插件前请先安好[node.js](http://nodejs.org/download/)
 
 - Autoprefixer			css3前缀自动添加删除
 - ConvertToUTF8			文件编码自动转换
