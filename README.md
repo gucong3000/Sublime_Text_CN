@@ -14,16 +14,16 @@ Sublime Text 2/3 Chinese language pack
 
 安装插件前请先安好[node.js](http://nodejs.org/download/)
 
-- Autoprefixer			css3前缀自动添加删除
-- ConvertToUTF8			文件编码自动转换
-- DocBlockr				代码自动注释生成
-- Emmet					HTML/CSS代码快速编写插件
-- HTML-CSS-JS Prettify	HTML和CSS代码格式化，		快捷键：Ctrl+Alt+H
-- jQuery					jQuery语法提示
-- JsFormat				JS格式化插件，			快捷键：Ctrl+Alt+F
-- JSHint Gutter			js代码风格检查，			快捷键：Ctrl+Alt+J
-- LESS					LESS语法高亮
-- SASS					SASS语法高亮
+- Autoprefixer：			css3前缀自动添加删除
+- ConvertToUTF8：			文件编码自动转换
+- DocBlockr：				代码自动注释生成
+- Emmet：					HTML/CSS代码快速编写插件
+- HTML-CSS-JS Prettify:		HTML和CSS代码格式化，		快捷键：Ctrl+Alt+H
+- jQuery：					jQuery语法提示
+- JsFormat：				JS格式化插件，				快捷键：Ctrl+Alt+F
+- JSHint Gutter：			js代码风格检查，			快捷键：Ctrl+Alt+J
+- LESS：					LESS语法高亮
+- SASS：					SASS语法高亮
 
 ## 汉化 ##
 
