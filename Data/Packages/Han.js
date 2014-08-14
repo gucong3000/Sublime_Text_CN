@@ -6,7 +6,8 @@ var fs = require("fs");
 // 插件中要删除文案的项目的ID
 var fixDate = {
 	"package-settings": true,
-	preferences: true
+	preferences: true,
+	tools: true
 };
 
 
