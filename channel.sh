@@ -1,0 +1,1 @@
+wget -N --no-check-certificate https://sublime.wbond.net/channel.json

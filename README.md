@@ -35,6 +35,6 @@ Sublime Text 2/3 Chinese language pack
 
 ## 破解 ##
 
-Sublime Text 2 序列号 `Data/Settings/License.sublime_license`
+Sublime Text 2 序列号 [License.sublime_license](Data/Settings/License.sublime_license)
 
 Sublime Text 3 破解补丁 [Sublime Text 3059 Crack By Lfqy.exe](Sublime Text 3059 Crack By Lfqy.exe?raw=true)
