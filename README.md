@@ -14,16 +14,16 @@ Sublime Text 2/3 Chinese language pack
 
 安装插件前请先安好[node.js](http://nodejs.org/download/)
 
-- Autoprefixer：			css3前缀自动添加删除
-- ConvertToUTF8：			文件编码自动转换
-- DocBlockr：				代码自动注释生成
-- Emmet：					HTML/CSS代码快速编写插件
-- HTML-CSS-JS Prettify:		HTML和CSS代码格式化，		快捷键：Ctrl+Alt+H
-- jQuery：					jQuery语法提示
-- JsFormat：				JS格式化插件，				快捷键：Ctrl+Alt+F
-- JSHint Gutter：			js代码风格检查，			快捷键：Ctrl+Alt+J
-- LESS：					LESS语法高亮
-- SASS：					SASS语法高亮
+- [Autoprefixer：			css3前缀自动添加删除](https://sublime.wbond.net/packages/Autoprefixer)
+- [ConvertToUTF8：			文件编码自动转换](https://sublime.wbond.net/packages/ConvertToUTF8)
+- [DocBlockr：				代码自动注释生成](https://sublime.wbond.net/packages/DocBlockr)
+- [Emmet：					HTML/CSS代码快速编写插件](https://sublime.wbond.net/packages/Emmet)
+- [HTML-CSS-JS Prettify:	HTML和CSS代码格式化](https://sublime.wbond.net/packages/HTML-CSS-JS Prettify)，	快捷键：Ctrl+Alt+H
+- [jQuery：					jQuery语法提示](https://sublime.wbond.net/packages/jQuery)
+- [JsFormat：				JS格式化插件](https://sublime.wbond.net/packages/JsFormat)，					快捷键：Ctrl+Alt+F
+- [JSHint Gutter：			js代码风格检查](https://sublime.wbond.net/packages/JSHint Gutter)，				快捷键：Ctrl+Alt+J
+- [LESS：					LESS语法高亮](https://sublime.wbond.net/packages/LESS)
+- [SASS：					SASS语法高亮](https://sublime.wbond.net/packages/SASS)
 
 ## 汉化 ##
 
