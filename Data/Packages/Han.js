@@ -53,21 +53,28 @@ fs.readdir(".", function(err, files) {
 				item = item + "/Main.sublime-menu";
 				fs.readFile(item, function(err, data) {
 					if (!err) {
-						data = JSON.parse(data);
-						var oldDataJson = JSON.stringify(data, 0, 4);
-
-						var newDataJson = JSON.stringify(fixObj(data), 0, 4);
-						if (oldDataJson !== newDataJson) {
-
-							fs.writeFile(item, newDataJson, function(err) {
-								if (!err) {
-									console.log("Modified:\t" + item);
-								}
-							});
-						} else {
-							console.log("ok:\t" + item);
+						try {
+							data = JSON.parse(data);
+						} catch (ex) {
+							try {
+								data = eval("(" + code + ")");
+							} catch (ex) {}
 						}
+						if (data) {
+							var oldDataJson = JSON.stringify(data, 0, 4);
 
+							var newDataJson = JSON.stringify(fixObj(data), 0, 4);
+							if (oldDataJson !== newDataJson) {
+
+								fs.writeFile(item, newDataJson, function(err) {
+									if (!err) {
+										console.log("Modified:\t" + item);
+									}
+								});
+							} else {
+								console.log("ok:\t" + item);
+							}
+						}
 					}
 				});
 			}
@@ -78,7 +85,7 @@ fs.readdir(".", function(err, files) {
 /**
  * 根据是v2版还是v3版启用主菜单汉化文件
  */
-(function(){
+(function() {
 	var ver = __dirname.match(/Sublime[\s-]Text[\s-](\d)/i);
 	if (ver) {
 		ver = parseInt(ver[1]);
