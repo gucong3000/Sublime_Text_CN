@@ -18,39 +18,24 @@ START
 :ADD
 CLS
 set str=%cd%
-echo REGEDIT4> sublime.reg 
-echo [HKEY_CLASSES_ROOT\*\shell]>> sublime.reg 
-echo [HKEY_CLASSES_ROOT\*\shell\SublimeText]>> sublime.reg 
-echo @="用Sublime Text打开">> sublime.reg 
-echo "Icon"="\"%str:\=\\%\\sublime_text.exe\",0">> sublime.reg
-echo [HKEY_CLASSES_ROOT\*\shell\SublimeText\Command]>> sublime.reg 
-echo @="\"%str:\=\\%\\sublime_text.exe\" \"%%1^\"">> sublime.reg 
 
-echo [HKEY_CLASSES_ROOT\Directory\shell\sublime]>> sublime.reg 
-echo @="添加到Sublime Text工程项目">> sublime.reg 
-echo "Icon"="\"%str:\=\\%\\sublime_text.exe\",0">> sublime.reg
-echo [HKEY_CLASSES_ROOT\Directory\shell\sublime\Command]>> sublime.reg 
-echo @="\"%str:\=\\%\\sublime_text.exe\" \"%%1^\"">> sublime.reg 
+reg add HKCR\*\shell\SublimeText /ve /d "用Sublime Text打开" /f
+reg add HKCR\*\shell\SublimeText /v Icon /d "\"%str:\=\\%\\sublime_text.exe\",0" /f
+reg add HKCR\*\shell\SublimeText\Command /ve /d "\"%str:\=\\%\\sublime_text.exe\" \"%%1^\"" /f
 
-echo [HKEY_CLASSES_ROOT\Directory\Background\shell\sublime]>> sublime.reg 
-echo @="添加到Sublime Text工程项目">> sublime.reg 
-echo "Icon"="\"%str:\=\\%\\sublime_text.exe\",0">> sublime.reg
-echo [HKEY_CLASSES_ROOT\Directory\Background\shell\sublime\Command]>> sublime.reg 
-echo @="\"%str:\=\\%\\sublime_text.exe\" \"%%V^\"">> sublime.reg 
-echo *=========================================================================*
-echo *                                                                         *
-echo *   正在将生成的注册信息写入注册表，请点击“是”键钮！                      *
-echo *                                                                         *
-echo *=========================================================================*
-sublime.reg
-del sublime.reg
+reg add HKCR\Directory\shell\sublime /ve /d "添加到Sublime Text工程项目" /f
+reg add HKCR\Directory\shell\sublime /v Icon /d "\"%str:\=\\%\\sublime_text.exe\",0" /f
+reg add HKCR\Directory\shell\sublime\Command /ve /d "\"%str:\=\\%\\sublime_text.exe\" \"%%1^\"" /f
+
+reg add HKCR\Directory\Background\shell\sublime /ve /d "添加到Sublime Text工程项目" /f
+reg add HKCR\Directory\Background\shell\sublime /v Icon /d "\"%str:\=\\%\\sublime_text.exe\",0" /f
+reg add HKCR\Directory\Background\shell\sublime\Command /ve /d "\"%str:\=\\%\\sublime_text.exe\" \"%%V^\"" /f
 GOTO :START
  
 :DEL
-echo REGEDIT4> sublime.reg 
-echo [-HKEY_CLASSES_ROOT\*\shell\SublimeText]>> sublime.reg 
-echo [-HKEY_CLASSES_ROOT\Directory\shell\sublime]>> sublime.reg 
-echo [-HKEY_CLASSES_ROOT\Directory\Background\shell\sublime]>> sublime.reg 
-sublime.reg
-del sublime.reg
+CLS
+reg delete HKCR\*\shell\SublimeText /va /f
+reg delete HKCR\Directory\shell\sublime /va /f
+reg delete HKCR\Directory\Background\shell\sublime /va /f
+pause
 GOTO :START
