@@ -7,7 +7,8 @@ var fs = require("fs");
 var fixDate = {
 	"package-settings": true,
 	preferences: true,
-	tools: true
+	tools: true,
+	edit: true
 };
 
 
