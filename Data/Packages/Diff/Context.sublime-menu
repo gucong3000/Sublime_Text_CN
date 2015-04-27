@@ -1,4 +1,0 @@
-[
-	{ "caption": "-" },
-	{ "caption": "显示未保存的更改…", "command": "diff_changes" }
-]
