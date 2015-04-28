@@ -1,20 +1,12 @@
 /*jshint node: true */
 "use strict";
 var fs = require("fs-extra") || require("fs"),
+	AdmZip = require("adm-zip"),
 	path = require("path");
 
 if (!fs.outputFile) {
 	fs.outputFile = fs.writeFile;
 }
-
-// 插件中要删除文案的项目的ID
-var fixDate = {
-	"package-settings": true,
-	preferences: true,
-	tools: true,
-	edit: true
-};
-
 
 // 要汉化的文案
 var hanDate = {
@@ -23,6 +15,7 @@ var hanDate = {
 	"70": " 70  个字符宽度",
 	"78": " 78  个字符宽度",
 	"80": " 80  个字符宽度",
+	"About Sublime Text 2": "关于 Sublime Text 2",
 	"About Sublime Text": "关于 Sublime Text",
 	"About": "关于",
 	"Add Current File": "添加当前文件",
@@ -102,6 +95,7 @@ var hanDate = {
 	"Delete Word Backward": "向前删除单词",
 	"Delete Word Forward": "向后删除单词",
 	"Dictionary": "词典",
+	"Diff Files…": "比较文件…",
 	"Distraction Free – User": "无干扰模式 – 用户",
 	"Documentation": "帮助文档",
 	"Edit Project": "编辑项目",
@@ -321,6 +315,7 @@ var hanDate = {
 	"Show Build Results": "显示编译结果",
 	"Show Completions": "显示完成",
 	"Show Results Panel": "显示查找结果",
+	"Show Unsaved Changes…": "显示未保存的更改…",
 	"Shuffle": "无序",
 	"Side Bar": "侧边栏",
 	"Simplified": "-简体 ",
@@ -392,13 +387,16 @@ var hanDate = {
 	"Wrap": "自动换行",
 };
 
+// 数据中无英文文案则按功能翻译
 var commandHan = {
 	"build": "立即编译",
 	"clear_bookmarks": "清除书签",
+	"close_project": "关闭项目",
 	"close_tag": "关闭当前标签",
 	"copy": "复制",
 	"cut": "剪切",
 	"duplicate_line": "复制光标所在行，插入在该行之前",
+	"exit": "退出",
 	"find_next": "查找下一个",
 	"fold": "折叠",
 	"indent": "缩进",
@@ -444,37 +442,24 @@ var commandHan = {
 	"yank": "抽出",
 };
 
-// 按单词翻译英文句子
-function world2han(wold) {
-	return /\:\s(.*)$/.test(wold) ? wold + (function() {
-		if (hanDate[RegExp.$]) {
-			return "→" + hanDate[RegExp.$2];
-		}
-		return "";
-	})() : wold.replace(/\s*(\w+)\s*/g, function(s, wold) {
-		return hanDate[wold] || s;
-	});
-}
-
 /**
- * 深度遍历对象进行汉化与删除
+ * 深度遍历对象进行汉化
  */
 function fixObj(obj) {
 	if (Array.isArray(obj)) {
 		obj.forEach(fixObj);
 	} else if (typeof obj === "object") {
-		if (obj.caption) {
-			if (hanDate[obj.caption]) {
-				if (obj.mnemonic) {
-					obj.caption = hanDate[obj.caption].replace(/(…?)$/, "(" + obj.mnemonic.toUpperCase() + ")$1");
-				} else {
-					obj.caption = hanDate[obj.caption];
-				}
-			} else {
-				obj.caption = world2han(obj.caption);
-			}
+		var hanCaption = "";
+		if (obj.caption && hanDate[obj.caption]) {
+			hanCaption = hanDate[obj.caption];
 		} else if (obj.command && commandHan[obj.command]) {
-			obj.caption = commandHan[obj.command];
+			hanCaption = commandHan[obj.command];
+		}
+		if (hanCaption) {
+			if (obj.mnemonic) {
+				hanCaption = hanCaption.replace(/(…?)$/, "(" + obj.mnemonic.toUpperCase() + ")$1");
+			}
+			obj.caption = hanCaption;
 		}
 		for (var i in obj) {
 			fixObj(obj[i]);
@@ -483,9 +468,10 @@ function fixObj(obj) {
 	return obj;
 }
 
-function hanJsonFile(data, path) {
+// 文件数据写入
+function hanJsonFile(data, filePath) {
+	filePath = path.normalize(filePath);
 	try {
-		data = data.toString();
 		data = JSON.parse(data);
 	} catch (ex) {
 		try {
@@ -495,24 +481,27 @@ function hanJsonFile(data, path) {
 		}
 	}
 	if (data) {
-		var oldDataJson = JSON.stringify(data, 0, 4);
+		var oldDataJson = JSON.stringify(data, null, '\t');
 
-		var newDataJson = JSON.stringify(fixObj(data), 0, 4);
+		var newDataJson = JSON.stringify(fixObj(data), null, '\t');
 		if (oldDataJson !== newDataJson) {
 
-			fs.outputFile(path, newDataJson, function(err) {
+			fs.outputFile(filePath, newDataJson, function(err) {
 				if (!err) {
-					console.log("Modified:\t" + path);
+					console.log("Modified:\t" + filePath);
 				} else {
 					console.log(err);
 				}
 			});
 		} else {
-			console.log("ok:\t" + path);
+			console.log("ok:\t" + filePath);
 		}
 	}
 }
 
+/**
+ * 查找各插件压缩包自带的*.sublime-menu、*.sublime-menucommands
+ */
 function unzip(dir) {
 	fs.readdir(dir, function(err, files) {
 		if (!err) {
@@ -525,8 +514,8 @@ function unzip(dir) {
 				}
 				if (zipFile) {
 					zipFile.getEntries().forEach(function(zipEntry) {
-						if (/\w+.sublime-(menu|commands)$/.test(zipEntry.entryName)) {
-							hanJsonFile(zipFile.readAsText(zipEntry.entryName), item.replace(regExtName, "/" + zipEntry.entryName));
+						if (/\w+\.sublime-(menu|commands)$/.test(zipEntry.entryName)) {
+							hanJsonFile(zipFile.readAsText(zipEntry.entryName), item.replace(/\.sublime-package$/, "/" + zipEntry.entryName));
 						}
 					});
 				}
@@ -536,7 +525,7 @@ function unzip(dir) {
 }
 
 /**
- * 查找各插件自带的*.sublime-menu
+ * 查找各插件文件夹自带的*.sublime-menu、*.sublime-menucommands
  */
 fs.readdir(".", function(err, dirs) {
 	if (!err) {
@@ -544,10 +533,10 @@ fs.readdir(".", function(err, dirs) {
 			fs.readdir(dir, function(err, files) {
 				if (!err) {
 					files.forEach(function(file) {
-						if (/\w+.sublime-(menu|commands)$/.test(file)) {
+						if (/\w+\.sublime-(menu|commands)$/.test(file)) {
 							fs.readFile(path.join(dir, file), function(err, data) {
 								if (!err) {
-									hanJsonFile(data, path.join(dir, file));
+									hanJsonFile(data.toString(), path.join(dir, file));
 								}
 							});
 						}
@@ -557,33 +546,9 @@ fs.readdir(".", function(err, dirs) {
 		});
 	}
 });
-var AdmZip = require("adm-zip"),
-	regExtName = /\.sublime-package$/;
+
 setTimeout(function() {
 	unzip("../Installed Packages");
 	unzip("../../Pristine Packages");
 	unzip("../../Packages");
 }, 1);
-
-
-
-/**
- * 根据是v2版还是v3版启用主菜单汉化文件
- */
-/*(function() {
-	var ver = __dirname.match(/Sublime[\s-]Text[\s-](\d)/i);
-	if (ver) {
-		ver = parseInt(ver[1]);
-	} else {
-		ver = fs.existsSync("../../PackageSetup.py") ? 2 : 3;
-	}
-	var menu = "Default/Main.sublime-menu";
-	fs.rename("Default/Main." + ver, menu, function(err) {
-		if (!err) {
-			console.log("Modified:\t" + menu);
-		} else {
-			console.log("ok:\t" + menu);
-		}
-	});
-})();
-*/
