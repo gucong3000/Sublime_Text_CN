@@ -15,13 +15,14 @@ Sublime Text 2/3 Chinese language pack
 安装插件前请先安好[node.js](http://nodejs.org/download/)
 
 - [Autoprefixer：			css3前缀自动添加删除](https://packagecontrol.io/packages/Autoprefixer)
+- [BracketHighlighter：		括号高亮](https://packagecontrol.io/packages/BracketHighlighter)
 - [ConvertToUTF8：			文件编码自动转换](https://packagecontrol.io/packages/ConvertToUTF8)
+- [CSS Format：				CSS格式化插件](https://packagecontrol.io/packages/CSS%20Format)
 - [DocBlockr：				代码自动注释生成](https://packagecontrol.io/packages/DocBlockr)
 - [Emmet：					HTML/CSS代码快速编写插件](https://packagecontrol.io/packages/Emmet)
 - [HTML-CSS-JS Prettify:	HTML和CSS代码格式化](https://packagecontrol.io/packages/HTML-CSS-JS Prettify)	快捷键：Ctrl+Alt+H
 - [jQuery：					jQuery语法提示](https://packagecontrol.io/packages/jQuery)
 - [JsFormat：				JS格式化插件](https://packagecontrol.io/packages/JsFormat)						快捷键：Ctrl+Alt+F
-- [CSS Format：				CSS格式化插件](https://packagecontrol.io/packages/CSS%20Format)
 - [JSHint Gutter：			js代码风格检查](https://packagecontrol.io/packages/JSHint Gutter)				快捷键：Ctrl+Alt+J
 - [LESS：					LESS语法高亮](https://packagecontrol.io/packages/LESS)
 - [SASS：					SASS语法高亮](https://packagecontrol.io/packages/SASS)
