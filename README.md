@@ -40,4 +40,4 @@ Sublime Text 2/3 Chinese language pack
 
 Sublime Text 2: [License.sublime_license](Data/Settings/License.sublime_license)
 
-Sublime Text 3: [License.sublime_license](Data/Local/License.sublime_license)内容复制
+Sublime Text 3: [License.sublime_license](Data/Local/License.sublime_license)
