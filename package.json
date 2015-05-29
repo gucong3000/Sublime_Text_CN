@@ -1,0 +1,31 @@
+{
+  "name": "Sublime_Text_CN",
+  "description": "JavaScript library for browser info",
+  "version": "0.1.0",
+  "homepage": "https://github.com/gucong3000/Sublime_Text_CN",
+  "author": {
+    "name": "gucong",
+    "url": "https://github.com/gucong3000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gucong3000/Sublime_Text_CN.git"
+  },
+  "keywords": [
+    "Sublime Text",
+    "Chinese",
+    "languages",
+    "I18N"
+  ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt"
+    }
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "adm-zip": "^0.4.7",
+    "fs-extra": "^0.18.4"
+  }
+}

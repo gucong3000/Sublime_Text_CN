@@ -32,9 +32,9 @@ Sublime Text 2/3 Chinese language pack
 
 汉化前请先安好所需插件
 
-1. 打开Sublime Text，点击 `首选项` > `浏览插件`，系统将弹出一个文件夹
-2. 将此项目的`Data/Packages`文件夹内的文件拷入弹出的文件夹
-3. 命令行下运行`node Han.js`
+1. 安装 [Node.js](https://nodejs.org/) 并 copy 所有文件到Sublime Text安装目录
+1. Windows用户使用 `系统鼠标右键菜单.bat`
+1. 其他操作系统 `npm install` 再 `node Han.js`
 
 ## 授权文件 ##
 
