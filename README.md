@@ -20,7 +20,8 @@ Sublime Text 2/3 Chinese language pack
 - [CSS Format：				CSS格式化插件](https://packagecontrol.io/packages/CSS%20Format)
 - [DocBlockr：				代码自动注释生成](https://packagecontrol.io/packages/DocBlockr)
 - [Emmet：					HTML/CSS代码快速编写插件](https://packagecontrol.io/packages/Emmet)
-- [HTML-CSS-JS Prettify:	HTML和CSS代码格式化](https://packagecontrol.io/packages/HTML-CSS-JS Prettify)	快捷键：Ctrl+Alt+H
+- [HTML-CSS-JS Prettify:	HTML和CSS代码格式化](https://packagecontrol.io/packages/HTML-CSS-JS%20Prettify)	快捷键：Ctrl+Alt+H
+- [IMESupport：				解决输入法不跟光标bug](https://packagecontrol.io/packages/IMESupport)
 - [jQuery：					jQuery语法提示](https://packagecontrol.io/packages/jQuery)
 - [JsFormat：				JS格式化插件](https://packagecontrol.io/packages/JsFormat)						快捷键：Ctrl+Alt+F
 - [JSHint Gutter：			js代码风格检查](https://packagecontrol.io/packages/JSHint Gutter)				快捷键：Ctrl+Alt+J
@@ -35,8 +36,8 @@ Sublime Text 2/3 Chinese language pack
 2. 将此项目的`Data/Packages`文件夹内的文件拷入弹出的文件夹
 3. 命令行下运行`node Han.js`
 
-## 破解 ##
+## 授权文件 ##
 
-Sublime Text 2\3 序列号 [License.sublime_license](Data/Settings/License.sublime_license)
+Sublime Text 2: [License.sublime_license](Data/Settings/License.sublime_license)
 
-Sublime Text 3 [Sublime Text 3065 破解版](http://pan.baidu.com/s/1gd26jXx#dir) 注意破解后还需要再输入序列号
+Sublime Text 3: [License.sublime_license](Data/Local/License.sublime_license)内容复制
