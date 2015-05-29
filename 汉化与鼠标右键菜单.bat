@@ -9,7 +9,7 @@ echo *                            [D]删除右键菜单                              *
 echo *                            [Q]退出                                      *
 echo *                                                                         *
 echo *=========================================================================*
-Set /P Choice=　　　　　　　请选择要进行的操作 (A/D/Q) ，然后按回车：
+Set /P Choice=　　　　　　　请选择要进行的操作 (H/A/D/Q) ，然后按回车：
 If /I "%Choice%"=="H" Goto :HAN
 If /I "%Choice%"=="A" Goto :ADD
 If /I "%Choice%"=="D" Goto :DEL
@@ -20,7 +20,7 @@ START
 :HAN
 CLS
 echo 请确保已经安装Node.js
-npm install
+call npm install
 node Han.js
 pause
 GOTO :START
