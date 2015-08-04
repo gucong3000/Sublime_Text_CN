@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /*jshint node: true */
 "use strict";
 var fs = require("fs-extra") || require("fs"),
