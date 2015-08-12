@@ -517,7 +517,7 @@ function fixObj(obj) {
 		obj.forEach(fixObj);
 	} else if (typeof obj === "object") {
 		var hanCaption = "";
-		if (obj.caption && hanDate[obj.caption]) {
+		if (obj && obj.caption && hanDate[obj.caption]) {
 			hanCaption = hanDate[obj.caption];
 		} else if (obj.command && commandHan[obj.command]) {
 			hanCaption = commandHan[obj.command];
