@@ -515,9 +515,9 @@ var commandHan = {
 function fixObj(obj) {
 	if (Array.isArray(obj)) {
 		obj.forEach(fixObj);
-	} else if (typeof obj === "object") {
+	} else if (obj && typeof obj === "object") {
 		var hanCaption = "";
-		if (obj && obj.caption && hanDate[obj.caption]) {
+		if (obj.caption && hanDate[obj.caption]) {
 			hanCaption = hanDate[obj.caption];
 		} else if (obj.command && commandHan[obj.command]) {
 			hanCaption = commandHan[obj.command];
