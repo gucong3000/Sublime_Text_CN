@@ -30,9 +30,9 @@ GOTO :START
 CLS
 set str=%cd%
 
-reg add HKCR\*\shell\SublimeText /ve /d "用Sublime Text打开" /f
-reg add HKCR\*\shell\SublimeText /v Icon /d "\"%str:\=\\%\\sublime_text.exe\",0" /f
-reg add HKCR\*\shell\SublimeText\Command /ve /d "\"%str:\=\\%\\sublime_text.exe\" \"%%1^\"" /f
+reg add "HKCR\*\shell\Open with Sublime Text" /ve /d "用Sublime Text打开" /f
+reg add "HKCR\*\shell\Open with Sublime Text" /v Icon /d "\"%str:\=\\%\\sublime_text.exe\",0" /f
+reg add "HKCR\*\shell\Open with Sublime Text\Command" /ve /d "\"%str:\=\\%\\sublime_text.exe\" \"%%1^\"" /f
 
 reg add HKCR\Directory\shell\sublime /ve /d "添加到Sublime Text工程项目" /f
 reg add HKCR\Directory\shell\sublime /v Icon /d "\"%str:\=\\%\\sublime_text.exe\",0" /f
@@ -45,7 +45,7 @@ GOTO :START
 
 :DEL
 CLS
-reg delete HKCR\*\shell\SublimeText /va /f
+reg delete "HKCR\*\shell\Open with Sublime Text" /va /f
 reg delete HKCR\Directory\shell\sublime /va /f
 reg delete HKCR\Directory\Background\shell\sublime /va /f
 pause
