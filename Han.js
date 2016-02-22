@@ -50,7 +50,7 @@ var hanDate = {
 	"Changelog…": "更新日志…",
 	"Check for Updates…": "检查更新…",
 	"Chinese": "中文",
-	"Choose Gutter Theme...": "选择Gutter主题…",
+	"Choose Gutter Theme...": "选择简报主题…",
 	"Clear Annotations": "清除批注",
 	"Clear Caches": "清除缓存",
 	"Clear Color Scheme Folder": "清除颜色方案文件夹",
@@ -419,6 +419,8 @@ var hanDate = {
 	"Tab Width: 6": "标签宽度: 6",
 	"Tab Width: 7": "标签宽度: 7",
 	"Tab Width: 8": "标签宽度: 8",
+	"Tag Settings - User": "标签设置 – 用户",
+	"Tag Settings – Default": "标签设置 – 默认",
 	"Tag": "标签",
 	"Text": "文本",
 	"Title Case": "首字母大写",
@@ -612,7 +614,7 @@ function fixObj(obj, skip) {
 }
 
 // 文件数据写入
-function hanJsonFile(data, subPath) {
+function hanJsonFile(data, subPath, isReplace) {
 	var filePath = path.join(dirPackages, subPath);
 	try {
 		data = JSON.parse(data);
@@ -620,20 +622,28 @@ function hanJsonFile(data, subPath) {
 		try {
 			data = eval.call(null, "(" + data + ")");
 		} catch (ex) {
-
+			if (!isReplace) {
+				data = data.replace(/(\$\w+)/g, "'`$1`'");
+				return hanJsonFile(data, subPath, true);
+			}
 		}
 	}
 	if (data) {
 		fileCache[filePath] = true;
 		var oldDataJson = JSON.stringify(data, null, '\t');
 
-		var newDataJson = JSON.stringify(fixObj(data, !/^Default\b/.test(subPath)), null, '\t');
+		var newDataJson = JSON.stringify(fixObj(data, /^\bMain.sublime-menu\b/.test(subPath) && !/^Default\b/.test(subPath), subPath), null, '\t');
 		if (oldDataJson === newDataJson) {
 
 			// 数据未汉化，不写文件
 			console.log("ok:\t" + subPath);
 
 		} else {
+
+			if (isReplace) {
+				newDataJson = newDataJson.replace(/"`(\$\w+)`"/, "$1");
+			}
+
 			// 数据汉化，写文件
 			fs.outputFile(filePath, newDataJson, function(err) {
 				if (!err) {
@@ -645,6 +655,8 @@ function hanJsonFile(data, subPath) {
 		}
 	}
 }
+
+var reExt = /\w+\.sublime-(?:menu|commands)(?:\.\w+)?$/;
 
 /**
  * 查找各插件压缩包自带的*.sublime-menu、*.sublime-menucommands
@@ -661,7 +673,7 @@ function unzip(dir) {
 			}
 			if (zipFile) {
 				zipFile.getEntries().forEach(function(zipEntry) {
-					if (/\w+\.sublime-(menu|commands)$/.test(zipEntry.entryName)) {
+					if (reExt.test(zipEntry.entryName)) {
 						hanJsonFile(zipFile.readAsText(zipEntry.entryName), item.replace(/\.[^\.]+$/, "/" + zipEntry.entryName));
 					}
 				});
@@ -683,7 +695,7 @@ fs.readdir(dirPackages, function(err, dirs) {
 				if (!err) {
 					files.forEach(function(file) {
 						file = path.join(dir, file);
-						if (!fileCache[file] && /\w+\.sublime-(menu|commands)$/.test(file)) {
+						if (!fileCache[file] && reExt.test(file)) {
 							fs.readFile(file, function(err, data) {
 								if (!err) {
 									hanJsonFile(data.toString(), path.relative(dirPackages, file));
