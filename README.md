@@ -26,6 +26,7 @@ Sublime Text 2/3 Chinese language pack
 - [jQuery：							jQuery语法提示](https://packagecontrol.io/packages/jQuery)
 - [JsFormat：						JS格式化插件](https://packagecontrol.io/packages/JsFormat)						快捷键：Ctrl+Alt+F
 - [LESS：							LESS语法高亮](https://packagecontrol.io/packages/LESS)
+- [Nodejs：							Nodejs语法提示](https://packagecontrol.io/packages/Nodejs)
 - [Sass：							SASS语法高亮](https://packagecontrol.io/packages/Sass)
 - [SublimeLinter-contrib-htmlhint：	HTML代码检查](https://packagecontrol.io/packages/SublimeLinter-contrib-htmlhint)
 - [SublimeLinter-csslint：			css代码检查](https://packagecontrol.io/packages/SublimeLinter-csslint)
