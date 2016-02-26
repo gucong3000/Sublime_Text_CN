@@ -349,6 +349,7 @@ var hanDate = {
 	"Rows: 3": "行: 3 窗口",
 	"Ruler": "标尺",
 	"Run + arguments": "运行 + 参数",
+	"Run CSScomb": "运行 CSScomb",
 	"Run": "运行",
 	"Save All on Build": "保存所有编译",
 	"Save All": "全部保存",
@@ -574,8 +575,17 @@ function fixObj(obj, skip) {
 		if (skip && obj.id) {
 			// 如果是第三方插件的一级菜单
 			delete obj.caption;
+			delete obj.mnemonic;
+			if (obj.id === "preferences" && Array.isArray(obj.children)) {
+				obj.children.forEach(function(subObj) {
+					if (subObj.id === "package-settings") {
+						delete subObj.caption;
+						delete subObj.mnemonic;
+					}
+				});
+			}
 		} else {
-			// 如果是Sublime本身的一级菜单
+			// 如果是Sublime本身或Package Control的一级菜单
 			var hanCaption = "";
 			if (obj.caption && hanDate[obj.caption]) {
 				// 普通文案翻译
@@ -632,7 +642,7 @@ function hanJsonFile(data, subPath, isReplace) {
 		fileCache[filePath] = true;
 		var oldDataJson = JSON.stringify(data, null, '\t');
 
-		var newDataJson = JSON.stringify(fixObj(data, /^\bMain.sublime-menu\b/.test(subPath) && !/^Default\b/.test(subPath), subPath), null, '\t');
+		var newDataJson = JSON.stringify(fixObj(data, /\bMain.sublime-menu(?:\.\w+)?$/.test(subPath) && !/^(?:Default|Package\s+Control)\b/.test(subPath), subPath), null, '\t');
 		if (oldDataJson === newDataJson) {
 
 			// 数据未汉化，不写文件
