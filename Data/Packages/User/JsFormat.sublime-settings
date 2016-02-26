@@ -3,5 +3,6 @@
 	"indent_with_tabs": true,
 
 	// jsformat options
-	"format_on_save": true
+	"format_on_save": true,
+	"jsbeautifyrc_files": true
 }
