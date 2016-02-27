@@ -1,15 +1,130 @@
 #!/usr/bin/env node
 
-/*jshint node: true */
 "use strict";
 var fs = require("fs-extra") || require("fs"),
 	AdmZip = require("adm-zip"),
 	path = require("path"),
-	dirPackages = path.join(__dirname, "Data/Packages"),
+	dirData = path.join(__dirname, "Data"),
+	dirPackages,
 	fileCache = {};
 
 if (!fs.outputFile) {
 	fs.outputFile = fs.writeFile;
+	fs.createOutputStream = fs.createWriteStream;
+}
+if (!fs.createOutputStream) {
+	fs.createOutputStream = fs.createWriteStream;
+}
+
+/**
+ * 输出授权文件
+ * @param  {Number} ver Sublime Text的版本号，2或3
+ */
+function outputLicense(ver) {
+	var filePath = path.join(dirData, (ver === 3 ? "Local" : "Settings"), "License.sublime_license");
+	// 先检查本地是否已有授权文件，已有则不再输出文件
+	fs.stat(filePath, (err, stats) => {
+		if (err || !stats.size) {
+			var data = ver === 3 ? new Buffer("+ADCJxugmgblbEaI/qgHwF/OBYC70TrQQquczJONLet75Trl2VLIKsVYBZW3iinvf6ADtv5BmgjJSGqorYFExlu3E+ijAYt3mB4F/p/Xe7BZtGflowSIBZBvOoX+oAi6WLJv8KsT+wLmHUnw6NNEwC61boDaBf5kmG5O9Z3WdrU6uW6BqneMcZALPvXvpXe0W8JchNoKi33hbkzmm6J8s1+xYva7cYlykWk+g+nEesAiwmGDqwewBpATOoPo0QujKMZjg64AjHSAEzv+56B6sSigEIejdfl14WoF/+2ieLAosxXl3XeNApceO/L+1wiwI8Nl9KMT/n2Vbjny5tRExVnDFfKuBYtkmGo7h+/TerI6tm6D2geIdpMLToKdoQrGKrdc96sD+XaVaUrmmqYMwC64Y/C7cI4H5mk48erEDbZfw2f2o3CwdOZuTPedoQijXrkSht5w/weAbzyH66APxyugZvSoAowHkx0FJF5wrAOOoBOL3xP2DeNuQZWbxKwDjmLWUQ==", "base64") : `----- BEGIN LICENSE -----
+Andrew Weber
+Single User License
+EA7E-855605
+813A03DD 5E4AD9E6 6C0EEB94 BC99798F
+942194A6 02396E98 E62C9979 4BB979FE
+91424C9D A45400BF F6747D88 2FB88078
+90F5CC94 1CDC92DC 8457107A F151657B
+1D22E383 A997F016 42397640 33F41CFC
+E1D0AE85 A0BBD039 0E9C8D55 E1B89D5D
+5CDB7036 E56DE1C0 EFCC0840 650CD3A6
+B98FC99C 8FAC73EE D2B95564 DF450523
+------ END LICENSE ------`;
+			fs.outputFile(filePath, data, (err) => {
+				if (!err) {
+					console.log("注册成功");
+				}
+			});
+		}
+	});
+}
+
+/**
+ * 自动安装Package Control
+ */
+function installPackage() {
+	var filePath = path.join(dirData, "Installed Packages/Package Control.sublime-package");
+	fs.stat(filePath, (err, stats) => {
+		if (err || !stats.size) {
+			console.log("正在下载插件：\tPackage Control");
+			require("request")("https://packagecontrol.io/Package%20Control.sublime-package").pipe(fs.createOutputStream(filePath));
+			process.on("exit", () => {
+				console.log("Package Control已安装，请重启Sublime Text。");
+			});
+		}
+	});
+}
+
+/**
+ * 修改各插件配置
+ */
+function settings() {
+	var cfgs = {
+		"Autoprefixer": {
+			"browsers": ["none"]
+		},
+		"CSScomb": {
+			"config": {
+				"block-indent": "\t"
+			}
+		},
+		"JsFormat": {
+			// exposed jsbeautifier options
+			"indent_with_tabs": true,
+
+			// jsformat options
+			"format_on_save": true,
+			"jsbeautifyrc_files": true
+		},
+		"Preferences": {
+			"default_line_ending": "unix",
+			"dpi_scale": 1,
+			"show_encoding": true,
+			"show_line_endings": true,
+			"tab_size": 4,
+			"translate_tabs_to_spaces": false
+		},
+		"SublimeLinter": {
+			"user": {
+				"show_errors_on_save": true
+			}
+		}
+	};
+
+	function upCfg(pakName) {
+		var filePath = path.join(dirData, "Packages/User/" + pakName + ".sublime-settings");
+		fs.readFile(filePath, (err, data) => {
+			if (!err) {
+				data = JSON.parse(data);
+			}
+
+			var oldData = err ? null : JSON.stringify(data, null, "\t");
+			var newDataJson = JSON.stringify(Object.assign(err ? {} : data, cfgs[pakName]), null, "\t");
+
+			if (err || (oldData !== newDataJson)) {
+				// 写文件
+				fs.outputFile(filePath, newDataJson, function(err) {
+					if (!err) {
+						console.log("Modified:\tUser/" + pakName + ".sublime-settings");
+					} else {
+						console.log(err);
+					}
+				});
+			}
+		});
+	}
+
+	for (var pakName in cfgs) {
+		upCfg(pakName);
+	}
 }
 
 // 要汉化的文案
@@ -19,7 +134,6 @@ var hanDate = {
 	"70": " 70  个字符宽度",
 	"78": " 78  个字符宽度",
 	"80": " 80  个字符宽度",
-	"About Sublime Text 2": "关于 Sublime Text 2",
 	"About Sublime Text": "关于 Sublime Text",
 	"About": "关于",
 	"Absolute Path From Project Encoded": "项目绝对路径编码",
@@ -682,7 +796,7 @@ function fixObj(obj, skip) {
 		} else {
 			// 如果是Sublime本身或Package Control的一级菜单，或者子项目
 
-			var caption = /^(.*?)(…)?$/.exec(obj.caption);
+			var caption = /^(.*?)(\s*?\d+)?(…)?$/.exec(obj.caption);
 			var hanCaption = "";
 			if (caption && caption[1] && hanDate[caption[1]]) {
 				// 普通文案翻译
@@ -707,11 +821,14 @@ function fixObj(obj, skip) {
 				});
 			}
 			if (hanCaption) {
-				if (obj.mnemonic) {
-					hanCaption += "(" + obj.mnemonic.toUpperCase() + ")";
-				}
 				if (caption[2]) {
 					hanCaption += caption[2];
+				}
+				if (obj.mnemonic && !(new RegExp(obj.mnemonic, "i").test(hanCaption))) {
+					hanCaption += "(" + obj.mnemonic.toUpperCase() + ")";
+				}
+				if (caption[3]) {
+					hanCaption += caption[3];
 				}
 				obj.caption = hanCaption;
 			}
@@ -744,9 +861,9 @@ function hanJsonFile(data, subPath, isReplace) {
 	}
 	if (data) {
 		fileCache[filePath] = true;
-		var oldDataJson = JSON.stringify(data, null, '\t');
+		var oldDataJson = JSON.stringify(data, null, "\t");
 
-		var newDataJson = JSON.stringify(fixObj(data, /\bMain.sublime-menu(?:\.\w+)?$/.test(subPath) && !/^(?:Default|Package\s+Control)\b/.test(subPath), subPath), null, '\t');
+		var newDataJson = JSON.stringify(fixObj(data, /\bMain.sublime-menu(?:\.\w+)?$/.test(subPath) && !/^(?:Default|Package\s+Control)\b/.test(subPath), subPath), null, "\t");
 		if (oldDataJson === newDataJson) {
 
 			// 数据未汉化，不写文件
@@ -776,7 +893,7 @@ var reExt = /\w+\.sublime-(?:menu|commands)(?:\.\w+)?$/;
  * 查找各插件压缩包自带的*.sublime-menu、*.sublime-menucommands
  */
 function unzip(dir) {
-	dir = path.join(__dirname, dir);
+	dir = path.resolve(__dirname, dir);
 	if (fs.existsSync(dir)) {
 		fs.readdirSync(dir).forEach(function(item) {
 			var zipFile;
@@ -796,29 +913,62 @@ function unzip(dir) {
 	}
 }
 
-unzip("Packages"); // Sublime Text 3/Packages
-unzip("Pristine Packages"); // Sublime Text 2/Pristine Packages
-unzip("Data/Installed Packages"); // ./Data/Data/Installed Packages
+function init() {
+	dirPackages = path.join(dirData, "Packages");
+	// Sublime Text 3/Packages
+	unzip("Packages");
+	// Sublime Text 2/Pristine Packages
+	unzip("Pristine Packages");
+	// ./Data/Pristine Packages
+	unzip(path.join(dirData, "Pristine Packages"));
+	// ./Data/Installed Packages
+	unzip(path.join(dirData, "Installed Packages"));
 
-// 查找./Data/Data/Packages各插件文件夹自带的*.sublime-menu、*.sublime-menucommands
-fs.readdir(dirPackages, function(err, dirs) {
-	if (!err) {
-		dirs.forEach(function(dir) {
-			dir = path.join(dirPackages, dir);
-			fs.readdir(dir, function(err, files) {
-				if (!err) {
-					files.forEach(function(file) {
-						file = path.join(dir, file);
-						if (!fileCache[file] && reExt.test(file)) {
-							fs.readFile(file, function(err, data) {
-								if (!err) {
-									hanJsonFile(data.toString(), path.relative(dirPackages, file));
-								}
-							});
-						}
-					});
-				}
+	// 查找./Data/Data/Packages各插件文件夹自带的*.sublime-menu、*.sublime-menucommands
+	fs.readdir(dirPackages, (err, dirs) => {
+		if (!err) {
+			dirs.forEach((dir) => {
+				dir = path.join(dirPackages, dir);
+				fs.readdir(dir, (err, files) => {
+					if (!err) {
+						files.forEach((file) => {
+							file = path.join(dir, file);
+							if (!fileCache[file] && reExt.test(file)) {
+								fs.readFile(file, (err, data) => {
+									if (!err) {
+										hanJsonFile(data.toString(), path.relative(dirPackages, file));
+									}
+								});
+							}
+						});
+					}
+				});
 			});
+		}
+	});
+}
+
+fs.access(dirData, fs.R_OK, (err) => {
+
+	function getVer(callback) {
+		fs.access(path.join(__dirname, "Pristine Packages"), fs.F_OK, (err) => {
+			callback(err ? 3 : 2);
 		});
+	}
+	if (err && process.platform === "win32") {
+		getVer((ver) => {
+			dirData = path.join(process.env.APPDATA, "Sublime Text " + ver);
+			init();
+			outputLicense(ver);
+			installPackage();
+			settings();
+		});
+	} else {
+		init();
+		getVer((ver) => {
+			outputLicense(ver);
+		});
+		installPackage();
+		settings();
 	}
 });
