@@ -103,7 +103,15 @@ function settings() {
 		var filePath = path.join(dirData, "Packages/User/" + pakName + ".sublime-settings");
 		fs.readFile(filePath, (err, data) => {
 			if (!err) {
-				data = JSON.parse(data);
+				try {
+					data = JSON.parse(data);
+				} catch (ex) {
+					try {
+						data = eval.call(null, "(" + data + ")");
+					} catch (ex) {
+						data = {};
+					}
+				}
 			}
 
 			var oldData = err ? null : JSON.stringify(data, null, "\t");

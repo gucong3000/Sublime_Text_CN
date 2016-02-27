@@ -26,6 +26,7 @@
   "dependencies": {},
   "devDependencies": {
     "adm-zip": "^0.4.7",
-    "fs-extra": "^0.18.4"
+    "fs-extra": "^0.18.4",
+    "request": "^2.69.0"
   }
 }
