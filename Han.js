@@ -115,7 +115,7 @@ function settings() {
 			}
 
 			var oldData = err ? null : JSON.stringify(data, null, "\t");
-			var newDataJson = JSON.stringify(Object.assign(err ? {} : data, cfgs[pakName]), null, "\t");
+			var newDataJson = JSON.stringify(Object.assign(cfgs[pakName], err ? {} : data), null, "\t");
 
 			if (err || (oldData !== newDataJson)) {
 				// 写文件
