@@ -3,14 +3,7 @@
 
 Sublime Text 2/3 Chinese language pack
 
-## Package Control ##
-
-我们用sublime几乎都会首先安装这个插件，这个插件是管理插件的功能，先安装它，再安装其他插件就方便了。
-
-- [在线安装](https://packagecontrol.io/installation)
-- [离线安装包](https://packagecontrol.io/Package%20Control.sublime-package)
-
-## 插件推荐 ##
+## 插件推荐(以下插件已做汉化支持) ##
 
 安装插件前请先安好[node.js](http://nodejs.org/download/)
 
@@ -44,8 +37,4 @@ Sublime Text 2/3 Chinese language pack
 1. Windows用户使用 `汉化与鼠标右键菜单.bat`
 1. 其他操作系统 `npm install` 再 `node Han.js`
 
-## 授权文件 ##
-
-Sublime Text 2: [License.sublime_license](Data/Settings/License.sublime_license)
-
-Sublime Text 3: [License.sublime_license](Data/Local/License.sublime_license)
+> 新装插件后造成界面部分英文话，可再次汉化，即可恢复正常。
