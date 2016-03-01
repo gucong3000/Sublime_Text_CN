@@ -230,8 +230,8 @@ var hanDate = {
 	"Clear Caches": "清除缓存",
 	"Clear Color Scheme Folder": "清除颜色方案文件夹",
 	"Clear Items": "清除项目",
+	"Clear Mark": "清除标记",
 	"Clear": "清除",
-	"ClearMark": "清除标记",
 	"Close All Files": "关闭所有文件",
 	"Close File": "关闭文件",
 	"Close Group": "关闭分组",
@@ -565,6 +565,7 @@ var hanDate = {
 	"Quick Find": "快速查找",
 	"Quick Skip Next": "快速跳转到下一个",
 	"Quick Switch Project": "快速切换项目",
+	"Quit": "退出",
 	"README": "文档",
 	"Recent Projects": "切换项目",
 	"Refresh Folders": "刷新文件夹",
@@ -855,7 +856,7 @@ function fixObj(obj, skip) {
 		} else {
 			// 如果是Sublime本身或Package Control的一级菜单，或者子项目
 
-			var caption = /^(.*?)(\s*?\d+)?(…)?$/.exec(obj.caption);
+			var caption = /^(.*?)(…)?$/.exec(obj.caption);
 			var hanCaption = "";
 			if (caption && caption[1]) {
 				if (hanDate[caption[1]]) {
@@ -871,7 +872,8 @@ function fixObj(obj, skip) {
 						}
 					});
 				}
-			} else if (obj.command && commandHan[obj.command]) {
+			}
+			if (!hanCaption && obj.command && commandHan[obj.command]) {
 				// 按命令翻译
 				hanCaption = commandHan[obj.command];
 				if (typeof hanCaption === "object" && obj.args) {
@@ -883,14 +885,11 @@ function fixObj(obj, skip) {
 			}
 
 			if (hanCaption) {
-				if (caption[2]) {
-					hanCaption += caption[2];
-				}
 				if (obj.mnemonic && !(new RegExp(obj.mnemonic, "i").test(hanCaption))) {
 					hanCaption += "(" + obj.mnemonic.toUpperCase() + ")";
 				}
-				if (caption[3]) {
-					hanCaption += caption[3];
+				if (caption[2]) {
+					hanCaption += caption[2];
 				}
 				obj.caption = hanCaption;
 			}
