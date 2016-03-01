@@ -4,7 +4,8 @@
 var fs = require("fs-extra") || require("fs"),
 	AdmZip = require("adm-zip"),
 	path = require("path"),
-	dirData = path.join(__dirname, "Data"),
+	dirRoot,
+	dirData,
 	dirPackages,
 	fileCache = {};
 
@@ -25,7 +26,7 @@ function outputLicense(ver) {
 	// 先检查本地是否已有授权文件，已有则不再输出文件
 	fs.stat(filePath, (err, stats) => {
 		if (err || !stats.size) {
-			var data = ver === 3 ? new Buffer("+ADCJxugmgblbEaI/qgHwF/OBYC70TrQQquczJONLet75Trl2VLIKsVYBZW3iinvf6ADtv5BmgjJSGqorYFExlu3E+ijAYt3mB4F/p/Xe7BZtGflowSIBZBvOoX+oAi6WLJv8KsT+wLmHUnw6NNEwC61boDaBf5kmG5O9Z3WdrU6uW6BqneMcZALPvXvpXe0W8JchNoKi33hbkzmm6J8s1+xYva7cYlykWk+g+nEesAiwmGDqwewBpATOoPo0QujKMZjg64AjHSAEzv+56B6sSigEIejdfl14WoF/+2ieLAosxXl3XeNApceO/L+1wiwI8Nl9KMT/n2Vbjny5tRExVnDFfKuBYtkmGo7h+/TerI6tm6D2geIdpMLToKdoQrGKrdc96sD+XaVaUrmmqYMwC64Y/C7cI4H5mk48erEDbZfw2f2o3CwdOZuTPedoQijXrkSht5w/weAbzyH66APxyugZvSoAowHkx0FJF5wrAOOoBOL3xP2DeNuQZWbxKwDjmLWUQ==", "base64") : `----- BEGIN LICENSE -----
+			var data = ver === 3 ? new Buffer(process.platform === "win32" ? "+ADCJxugmgblbEaI/qgHwF/OBYC70TrQQquczJONLet75Trl2VLIKsVYBZW3iinvf6ADtv5BmgjJSGqorYFExlu3E+ijAYt3mB4F/p/Xe7BZtGflowSIBZBvOoX+oAi6WLJv8KsT+wLmHUnw6NNEwC61boDaBf5kmG5O9Z3WdrU6uW6BqneMcZALPvXvpXe0W8JchNoKi33hbkzmm6J8s1+xYva7cYlykWk+g+nEesAiwmGDqwewBpATOoPo0QujKMZjg64AjHSAEzv+56B6sSigEIejdfl14WoF/+2ieLAosxXl3XeNApceO/L+1wiwI8Nl9KMT/n2Vbjny5tRExVnDFfKuBYtkmGo7h+/TerI6tm6D2geIdpMLToKdoQrGKrdc96sD+XaVaUrmmqYMwC64Y/C7cI4H5mk48erEDbZfw2f2o3CwdOZuTPedoQijXrkSht5w/weAbzyH66APxyugZvSoAowHkx0FJF5wrAOOoBOL3xP2DeNuQZWbxKwDjmLWUQ==" : "jWFcOJwg8qRBJCMFOtAyVSqvm588UVJy5uP5QVf1GH4OhKT6XtKgiGEQYBhz8hx6CsGdqXnB8qptAA8laflxUy7WjfckgePVPFZgc1uvTiUs1fn6JITgpzQnXwg62D0vLdPx7yyTk6BCVSx9LKtxVVvU8J9dhZbGPCYreFmuQyBP2PCeLffk0zRDW3gr3UIhLqPCm12K499FJilrX9pJJirQ/Ok88eHQNSFbDi28T1VXo/+cLIfYpDRbXw4sqT42Xaf9nCmA5NYkW15zI9hPJF3Bjpgk9ZHXRSJgcinaTSVd0ov6WvfloDNWXn86rz0lVqL76ySTlt8xJlx/IqxxUCyii+0phePGPCJeCiurTydP1/CcXYfg1DdDKw9Z2T9TX9bC6CyDkdQxIS9rXt45VVvZ/e888OalQiFdfC68OCMqovnpJPDY1kImKXpZ2T02K9iMmVnwl6UkJ1kKL9g6Ul7B+OsvguSlN1VgqZoImZb7wY2UWJOer0cmJBhfvJmW+wNITg==", "base64") : `----- BEGIN LICENSE -----
 Andrew Weber
 Single User License
 EA7E-855605
@@ -40,11 +41,60 @@ B98FC99C 8FAC73EE D2B95564 DF450523
 ------ END LICENSE ------`;
 			fs.outputFile(filePath, data, (err) => {
 				if (!err) {
-					console.log("注册成功");
+					console.log("License:\t" + filePath);
 				}
 			});
+			// } else {
+			// 	fs.readFile(filePath, (err, date) => {
+			// 		console.log(date.toString("base64"));
+			// 	});
 		}
 	});
+}
+
+function contextMenu() {
+	// 写入鼠标右键菜单
+	switch (process.platform) {
+		case "win32":
+			var cmd = path.join(dirRoot, "sublime_text.exe");
+			cmd = `reg add "HKCR\\*\\shell\\Open with Sublime Text" /ve /d "用Sublime Text打开" /f
+reg add "HKCR\\*\\shell\\Open with Sublime Text" /v Icon /d "\\"${cmd}\\",0" /f
+reg add "HKCR\\*\\shell\\Open with Sublime Text\\Command" /ve /d "\\"${cmd}\\" \\"%1^\\"" /f
+reg add HKCR\\Directory\\shell\\sublime_text /ve /d "添加到Sublime Text工程项目" /f
+reg add HKCR\\Directory\\shell\\sublime_text /v Icon /d "\\"${cmd}\\",0" /f
+reg add HKCR\\Directory\\shell\\sublime_text\\Command /ve /d "\\"${cmd}\\" \\"%1^\\"" /f
+reg add HKCR\\Directory\\Background\\shell\\sublime_text /ve /d "添加到Sublime Text工程项目" /f
+reg add HKCR\\Directory\\Background\\shell\\sublime_text /v Icon /d "\\"${cmd}\\",0" /f
+reg add HKCR\\Directory\\Background\\shell\\sublime_text\\Command /ve /d "\\"${cmd}\\" \\"%V^\\"" /f`.replace(/(\r?\n)+/g, "&&");
+			require("child_process").exec(cmd, (error) => {
+				if (!error) {
+					console.log("Context menu write done.");
+				}
+			});
+			break;
+		case "linux":
+			fs.access("/usr/share/applications/sublime_text.desktop", fs.F_OK, (err) => {
+				if (!err) {
+					var filePath = "/usr/share/applications/defaults.list";
+					fs.readFile(filePath, (err, data) => {
+						if (!err && data) {
+							data = data.toString();
+							var newData = data.replace(/=gedit\.desktop(\n|$)/g, "=sublime_text.desktop$1");
+							if (data === newData) {
+								console.log("Context menu exist.");
+							} else {
+								// 写文件
+								fs.writeFile(filePath, data.toString().replace(/=gedit\.desktop(\n|$)/g, "=sublime_text.desktop$1"), (err) => {
+									if (!err) {
+										console.log("Context menu write done.");
+									}
+								});
+							}
+						}
+					});
+				}
+			});
+	}
 }
 
 /**
@@ -119,11 +169,12 @@ function settings() {
 
 			if (err || (oldData !== newDataJson)) {
 				// 写文件
-				fs.outputFile(filePath, newDataJson, function(err) {
+				fs.outputFile(filePath, newDataJson, (err) => {
 					if (!err) {
 						console.log("Modified:\tUser/" + pakName + ".sublime-settings");
 					} else {
-						console.log(err);
+						console.error("没有权限写入文件！请使用管理员权限运行！");
+						process.exit(1);
 					}
 				});
 			}
@@ -773,7 +824,7 @@ var langHan = {
 function fixObj(obj, skip) {
 	if (Array.isArray(obj)) {
 		var hasDonate;
-		obj = obj.filter(function(subObj) {
+		obj = obj.filter((subObj) => {
 			if (subObj.caption === "Donate") {
 				// 删除“捐助”
 				hasDonate = true;
@@ -794,7 +845,7 @@ function fixObj(obj, skip) {
 			delete obj.caption;
 			delete obj.mnemonic;
 			if (obj.id === "preferences" && Array.isArray(obj.children)) {
-				obj.children.forEach(function(subObj) {
+				obj.children.forEach((subObj) => {
 					if (subObj.id === "package-settings") {
 						delete subObj.caption;
 						delete subObj.mnemonic;
@@ -806,9 +857,20 @@ function fixObj(obj, skip) {
 
 			var caption = /^(.*?)(\s*?\d+)?(…)?$/.exec(obj.caption);
 			var hanCaption = "";
-			if (caption && caption[1] && hanDate[caption[1]]) {
-				// 普通文案翻译
-				hanCaption = hanDate[caption[1]];
+			if (caption && caption[1]) {
+				if (hanDate[caption[1]]) {
+					// 普通文案翻译
+					hanCaption = hanDate[caption[1]];
+				} else if (obj.args && obj.args.encoding) {
+					// 文语言名称翻译
+					hanCaption = caption[1].replace(/^([A-Z]+\w+(?:\s+[A-Z]+\w+)*)(\s\(.*?\))$/, (s, langName, code) => {
+						if (langHan[langName]) {
+							return langHan[langName] + code;
+						} else {
+							return s;
+						}
+					});
+				}
 			} else if (obj.command && commandHan[obj.command]) {
 				// 按命令翻译
 				hanCaption = commandHan[obj.command];
@@ -818,16 +880,8 @@ function fixObj(obj, skip) {
 					}
 					hanCaption = hanCaption[obj.args[key]];
 				}
-			} else if (obj.caption && obj.args && obj.args.encoding) {
-				// 文语言名称翻译
-				hanCaption = obj.caption.replace(/^([A-Z]+\w+(?:\s+[A-Z]+\w+)*)(\s\(.*?\))$/, function(s, langName, code) {
-					if (langHan[langName]) {
-						return langHan[langName] + code;
-					} else {
-						return s;
-					}
-				});
 			}
+
 			if (hanCaption) {
 				if (caption[2]) {
 					hanCaption += caption[2];
@@ -884,7 +938,7 @@ function hanJsonFile(data, subPath, isReplace) {
 			}
 
 			// 数据汉化，写文件
-			fs.outputFile(filePath, newDataJson, function(err) {
+			fs.outputFile(filePath, newDataJson, (err) => {
 				if (!err) {
 					console.log("Modified:\t" + subPath);
 				} else {
@@ -901,9 +955,9 @@ var reExt = /\w+\.sublime-(?:menu|commands)(?:\.\w+)?$/;
  * 查找各插件压缩包自带的*.sublime-menu、*.sublime-menucommands
  */
 function unzip(dir) {
-	dir = path.resolve(__dirname, dir);
+	dir = path.resolve(dirRoot, dir);
 	if (fs.existsSync(dir)) {
-		fs.readdirSync(dir).forEach(function(item) {
+		fs.readdirSync(dir).forEach((item) => {
 			var zipFile;
 			try {
 				zipFile = new AdmZip(path.join(dir, item));
@@ -911,7 +965,7 @@ function unzip(dir) {
 
 			}
 			if (zipFile) {
-				zipFile.getEntries().forEach(function(zipEntry) {
+				zipFile.getEntries().forEach((zipEntry) => {
 					if (reExt.test(zipEntry.entryName)) {
 						hanJsonFile(zipFile.readAsText(zipEntry.entryName), item.replace(/\.[^\.]+$/, "/" + zipEntry.entryName));
 					}
@@ -956,27 +1010,38 @@ function init() {
 	});
 }
 
-fs.access(dirData, fs.R_OK, (err) => {
-
-	function getVer(callback) {
-		fs.access(path.join(__dirname, "Pristine Packages"), fs.F_OK, (err) => {
-			callback(err ? 3 : 2);
-		});
+fs.access(path.join(__dirname, "sublime_text" + (process.platform === "win32" ? ".exe" : "")), fs.F_OK, (err) => {
+	if (err) {
+		switch (process.platform) {
+			case "win32":
+				dirRoot = path.join(process.env.ProgramFiles, "Sublime Text 3");
+				break;
+			case "linux":
+				dirRoot = "/opt/sublime_text";
+		}
+	} else {
+		dirRoot = __dirname;
 	}
-	if (err && process.platform === "win32") {
-		getVer((ver) => {
-			dirData = path.join(process.env.APPDATA, "Sublime Text " + ver);
+	dirData = path.join(dirRoot, "Data");
+
+	fs.access(path.join(dirRoot, "Pristine Packages"), fs.F_OK, (err) => {
+		var ver = err ? 3 : 2;
+		fs.access(dirData, fs.F_OK, (err) => {
+			if (err) {
+				switch (process.platform) {
+					case "win32":
+						dirData = path.join(process.env.APPDATA, "Sublime Text " + ver);
+						break;
+					case "linux":
+						dirData = path.join(process.env.HOME, ".config/sublime-text-" + ver);
+				}
+			}
+
 			init();
 			outputLicense(ver);
+			contextMenu();
 			installPackage();
 			settings();
 		});
-	} else {
-		init();
-		getVer((ver) => {
-			outputLicense(ver);
-		});
-		installPackage();
-		settings();
-	}
+	});
 });
