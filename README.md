@@ -3,6 +3,8 @@
 
 Sublime Text 2/3 Chinese language pack
 
+Sublime Text 2/3 简体中文语言包
+
 ## 插件推荐(以下插件已做汉化支持) ##
 
 安装插件前请先安好[node.js](http://nodejs.org/download/)
@@ -36,4 +38,4 @@ Sublime Text 2/3 Chinese language pack
 1. 安装 [Node.js](https://nodejs.org/) 并 copy `Han.js`与`package.json`到Sublime Text安装目录
 1. 在管理员权限下，命令行运行 `npm i` 再 `node Han.js`
 
-> 新装插件后造成界面部分英文化，可再次汉化，即可恢复正常。
+> 新装插件后造成界面部分英文化，可再次运行`node Han.js`，即可恢复正常。

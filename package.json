@@ -1,15 +1,12 @@
 {
-  "name": "Sublime_Text_CN",
-  "description": "JavaScript library for browser info",
+  "name": "sublime_text_cn",
+  "description": "Sublime Text Chinese language package",
   "version": "0.1.0",
   "homepage": "https://github.com/gucong3000/Sublime_Text_CN",
-  "author": {
-    "name": "gucong",
-    "url": "https://github.com/gucong3000"
-  },
+  "author": "gucong (https://github.com/gucong3000)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gucong3000/Sublime_Text_CN.git"
+    "url": "git+https://github.com/gucong3000/Sublime_Text_CN.git"
   },
   "keywords": [
     "Sublime Text",
@@ -23,10 +20,18 @@
       "url": "https://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt"
     }
   ],
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
     "adm-zip": "^0.4.7",
-    "fs-extra": "^0.18.4",
+    "fs-extra": "^0.26.5",
     "request": "^2.69.0"
-  }
+  },
+  "devDependencies": {},
+  "bugs": {
+    "url": "https://github.com/gucong3000/Sublime_Text_CN/issues"
+  },
+  "main": "Han.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "MIT"
 }
