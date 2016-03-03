@@ -1,9 +1,9 @@
 [Sublime Text](http://www.sublimetext.com/) CN
 ===============
 
-Sublime Text 2/3 Chinese language pack
+>Sublime Text 2/3 Chinese language pack
 
-Sublime Text 2/3 简体中文语言包
+>Sublime Text 2/3 简体中文语言包
 
 ## 插件推荐(以下插件已做汉化支持) ##
 
