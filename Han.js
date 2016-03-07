@@ -146,6 +146,9 @@ function settings() {
 			"user": {
 				"show_errors_on_save": true
 			}
+		},
+		"FixMyJS": {
+			"fixOnSave": true
 		}
 	};
 
@@ -992,9 +995,13 @@ function init() {
 				dir = path.join(dirPackages, dir);
 				fs.readdir(dir, (err, files) => {
 					if (!err) {
+						var hasNode = 0;
 						files.forEach((file) => {
-							file = path.join(dir, file);
-							if (!fileCache[file] && reExt.test(file)) {
+							if ("package.json" === file) {
+								++hasNode;
+							} else if ("node_modules" === file) {
+								++hasNode;
+							} else if (reExt.test(file) && !fileCache[file = path.join(dir, file)]) {
 								fs.readFile(file, (err, data) => {
 									if (!err) {
 										hanJsonFile(data.toString(), path.relative(dirPackages, file));
@@ -1002,6 +1009,16 @@ function init() {
 								});
 							}
 						});
+						if (hasNode > 1) {
+							require("child_process").exec("npm update", {
+								cwd: dir,
+							}, (error, stdout, stderr) => {
+								if (!error && stdout) {
+									console.log(dir);
+									console.log(stdout);
+								}
+							});
+						}
 					}
 				});
 			});
