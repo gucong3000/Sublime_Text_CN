@@ -1012,7 +1012,7 @@ function init() {
 						if (hasNode > 1) {
 							require("child_process").exec("npm update", {
 								cwd: dir,
-							}, (error, stdout, stderr) => {
+							}, (error, stdout) => {
 								if (!error && stdout) {
 									console.log(dir);
 									console.log(stdout);
@@ -1034,6 +1034,9 @@ fs.access(path.join(__dirname, "sublime_text" + (process.platform === "win32" ? 
 				break;
 			case "linux":
 				dirRoot = "/opt/sublime_text";
+				break;
+			case "darwin":
+				dirRoot = "/Applications/Sublime Text.app/Contents/MacOS";
 		}
 	} else {
 		dirRoot = __dirname;
@@ -1044,12 +1047,16 @@ fs.access(path.join(__dirname, "sublime_text" + (process.platform === "win32" ? 
 		var ver = err ? 3 : 2;
 		fs.access(dirData, fs.F_OK, (err) => {
 			if (err) {
+				console.log(path.resolve());
 				switch (process.platform) {
 					case "win32":
 						dirData = path.join(process.env.APPDATA, "Sublime Text " + ver);
 						break;
 					case "linux":
-						dirData = path.join(process.env.HOME, ".config/sublime-text-" + ver);
+						dirData = "~/.config/sublime-text-" + ver;
+						break;
+					case "darwin":
+						dirData = "~/Library/Application Support/Sublime Text " + ver;
 				}
 			}
 
