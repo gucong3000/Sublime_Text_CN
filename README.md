@@ -12,7 +12,7 @@
 - [Autoprefixer：						css3前缀自动添加删除](https://packagecontrol.io/packages/Autoprefixer)
 - [BracketHighlighter：					括号高亮](https://packagecontrol.io/packages/BracketHighlighter)
 - [ConvertToUTF8：						文件编码自动转换](https://packagecontrol.io/packages/ConvertToUTF8)
-- [CSScomb：							CSS格式化插件](https://packagecontrol.io/packages/CSScomb)
+- [CSScomb：							CSS格式化插件](https://packagecontrol.io/packages/CSScomb)						快捷键 Ctrl+Shift+C
 - [DocBlockr：							代码自动注释生成](https://packagecontrol.io/packages/DocBlockr)
 - [Emmet：								HTML/CSS代码快速编写插件](https://packagecontrol.io/packages/Emmet)
 - [FixMyJS：							JS代码自动修正](https://packagecontrol.io/packages/FixMyJS)

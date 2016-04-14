@@ -33,6 +33,7 @@
 	"jquery": false,
 	//允许Node环境全局成员
 	"node": true,
+	"evil": true,
 	"globalstrict": true,
 	"esnext": true
 }

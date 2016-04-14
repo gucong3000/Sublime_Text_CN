@@ -123,7 +123,50 @@ function settings() {
 		},
 		"CSScomb": {
 			"config": {
-				"block-indent": "\t"
+				// Whether to add a semicolon after the last value/mixin.
+				"always-semicolon": true,
+				// Set indent for code inside blocks, including media queries and nested rules.
+				"block-indent": "\t",
+				// Unify case of hexadecimal colors.
+				"color-case": "lower",
+				// Whether to expand hexadecimal colors or use shorthands.
+				"color-shorthand": true,
+				// Unify case of element selectors.
+				"element-case": "lower",
+				// Add/remove line break at EOF.
+				"eof-newline": true,
+				// Add/remove leading zero in dimensions.
+				"leading-zero": false,
+				// Unify quotes style.
+				"quotes": "double",
+				// Remove all rulesets that contain nothing but spaces.
+				"remove-empty-rulesets": true,
+				"sort-order-fallback": "abc",
+				// Set space after `:` in declarations.
+				"space-after-colon": " ",
+				// Set space after combinator (for example, in selectors like `p > a`).
+				"space-after-combinator": " ",
+				// Set space after `{`.
+				"space-after-opening-brace": "\n",
+				// Set space after selector delimiter.
+				"space-after-selector-delimiter": "\n",
+				// Set space before `}`.
+				"space-before-closing-brace": "\n",
+				// Set space before `:` in declarations.
+				"space-before-colon": "",
+				// Set space before combinator (for example, in selectors like `p > a`).
+				"space-before-combinator": " ",
+				// Set space before `{`.
+				"space-before-opening-brace": " ",
+				// Set space before selector delimiter.
+				"space-before-selector-delimiter": "",
+				// Set space between declarations (i.e. `color: tomato`).
+				"space-between-declarations": "\n",
+				// Whether to trim trailing spaces.
+				"strip-spaces": true,
+				"tab-size": true,
+				// Whether to remove units in zero-valued dimensions.
+				"unitless-zero": true
 			}
 		},
 		"JsFormat": {
@@ -149,7 +192,20 @@ function settings() {
 		},
 		"FixMyJS": {
 			"fixOnSave": true
-		}
+		},
+		"JSON": {
+			"extensions": [
+				"babelrc",
+				"jsbeautifyrc",
+				"jshintrc",
+				"stylelintrc",
+			]
+		},
+		"JavaScript": {
+			"extensions": [
+				"es6"
+			]
+		},
 	};
 
 	function upCfg(pakName) {
@@ -446,9 +502,9 @@ var hanDate = {
 	"Line Endings": "行尾标识",
 	"Line Up": "上移一行",
 	"Line": "行",
-	"Lint Code": "效验代码",
-	"Lint Mode": "检查模式",
-	"Lint This View": "检查此视图",
+	"Lint Code": "代码语法分析",
+	"Lint Mode": "语法分析模式",
+	"Lint This View": "分析此视图代码语法",
 	"List": "列表",
 	"Lower Case": "改为小写",
 	"Mac OS 9 Line Endings (CR)": "Mac OS 9 换行符 (CR)",
@@ -564,7 +620,7 @@ var hanDate = {
 	"Project: Edit": "Project: Edit → 项目: 编辑",
 	"Project: Refresh Folders": "Project: Refresh Folders → 项目: 刷新文件夹",
 	"Project: Save As": "Project: Save As → 项目: 将另存为",
-	"Promote as Project Folder": "促进作为项目文件夹",
+	"Promote as Project Folder": "提升为项目文件夹",
 	"Publish": "发布",
 	"Quick Add Next": "快速选中下一个",
 	"Quick Find All": "快速查找全部",
@@ -622,7 +678,7 @@ var hanDate = {
 	"Set Encoding": "设置编码",
 	"Set File Encoding to": "设置文件编码为",
 	"Set Keyboard Shortcuts": "设置键盘快捷方式",
-	"Set Linting Preferences": "设置效验首选项",
+	"Set Linting Preferences": "设置语法分析首选项",
 	"Set Plugin Options": "设置插件选项",
 	"Set Prettify Preferences": "设置美化首选项",
 	"Settings - Default": "设置 - 默认",
@@ -688,7 +744,7 @@ var hanDate = {
 	"Toggle Block Comment": "开启/关闭段注释",
 	"Toggle Comment": "开启/关闭行注释",
 	"Toggle High Visibility Mode": "切换高可见性模式",
-	"Toggle Linter": "切换检查器",
+	"Toggle Linter": "切换语法分析器",
 	"Toggle String Bracket Escape Mode": "切换括号内字符串超长隐藏模式",
 	"Tools": "工具",
 	"Twitter": "推特",
