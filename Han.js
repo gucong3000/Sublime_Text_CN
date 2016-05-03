@@ -206,6 +206,11 @@ function settings() {
 				"es6"
 			]
 		},
+		"HTML": {
+			"extensions": [
+				"htc"
+			]
+		},
 	};
 
 	function upCfg(pakName) {
