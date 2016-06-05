@@ -23,6 +23,7 @@
 - [LESS：								LESS语法高亮](https://packagecontrol.io/packages/LESS)
 - [Nodejs：								Nodejs语法提示](https://packagecontrol.io/packages/Nodejs)
 - [Sass：								SASS语法高亮](https://packagecontrol.io/packages/Sass)
+- [SFTP：								远程文件编辑](https://packagecontrol.io/packages/SFTP)
 - [SideBarEnhancements：				侧边栏增强](https://packagecontrol.io/packages/SideBarEnhancements)
 - [SublimeCodeIntel：					代码自动完成](https://packagecontrol.io/packages/SublimeCodeIntel)
 - [SublimeLinter-contrib-htmlhint：		HTML代码检查](https://packagecontrol.io/packages/SublimeLinter-contrib-htmlhint)
@@ -30,6 +31,7 @@
 - [SublimeLinter-jshint：				js代码审查](https://packagecontrol.io/packages/SublimeLinter-jshint)
 - [SublimeLinter-php：					php代码检查](https://packagecontrol.io/packages/SublimeLinter-php)
 - [SublimeLinter：						代码检查框架](https://sublimelinter.readthedocs.org/)
+- [Terminal：							命令行调用](https://packagecontrol.io/packages/Terminal)
 
 ## 汉化 ##
 
