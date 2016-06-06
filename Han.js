@@ -39,7 +39,7 @@ E1D0AE85 A0BBD039 0E9C8D55 E1B89D5D
 5CDB7036 E56DE1C0 EFCC0840 650CD3A6
 B98FC99C 8FAC73EE D2B95564 DF450523
 ------ END LICENSE ------`;
-			fs.outputFile(filePath, data, (err) => {
+			fs.outputFile(filePath, data, err => {
 				if (!err) {
 					console.log("License:\t" + filePath);
 				}
@@ -73,7 +73,7 @@ reg add HKCR\\Directory\\Background\\shell\\sublime_text\\Command /ve /d "\\"${c
 			});
 			break;
 		case "linux":
-			fs.access("/usr/share/applications/sublime_text.desktop", fs.F_OK, (err) => {
+			fs.access("/usr/share/applications/sublime_text.desktop", fs.F_OK, err => {
 				if (!err) {
 					var filePath = "/usr/share/applications/defaults.list";
 					fs.readFile(filePath, (err, data) => {
@@ -84,7 +84,7 @@ reg add HKCR\\Directory\\Background\\shell\\sublime_text\\Command /ve /d "\\"${c
 								console.log("Context menu exist.");
 							} else {
 								// 写文件
-								fs.writeFile(filePath, data.toString().replace(/=gedit\.desktop(\n|$)/g, "=sublime_text.desktop$1"), (err) => {
+								fs.writeFile(filePath, data.toString().replace(/=gedit\.desktop(\n|$)/g, "=sublime_text.desktop$1"), err => {
 									if (!err) {
 										console.log("Context menu write done.");
 									}
@@ -107,7 +107,7 @@ function installPackage() {
 			console.log("正在下载插件：\tPackage Control");
 			require("request")("https://packagecontrol.io/Package%20Control.sublime-package").pipe(fs.createOutputStream(filePath));
 			process.on("exit", () => {
-				console.log("Package Control已安装，请重启Sublime Text。");
+				console.log("Package Control已安装，请重启Sublime Text。然后重启本程序");
 			});
 		}
 	});
@@ -123,51 +123,70 @@ function settings() {
 		},
 		"CSScomb": {
 			"config": {
-				// Whether to add a semicolon after the last value/mixin.
+				// 最后一个属性后是否添加封号
 				"always-semicolon": true,
-				// Set indent for code inside blocks, including media queries and nested rules.
+				// 代码块缩进字符，包括媒体查询和套式规则。
 				"block-indent": "\t",
-				// Unify case of hexadecimal colors.
+				// 统一颜色大小写
 				"color-case": "lower",
-				// Whether to expand hexadecimal colors or use shorthands.
+				// 使用颜色的缩写
 				"color-shorthand": true,
-				// Unify case of element selectors.
+				// 元素选择器的大小写
 				"element-case": "lower",
-				// Add/remove line break at EOF.
+				// 文件结尾添加或删除空行
 				"eof-newline": true,
-				// Add/remove leading zero in dimensions.
+				// 要排除的文件
+				"exclude": [
+					".hg/**",
+					".git/**",
+					"node_modules/**",
+					"bower_components/**"
+				],
+				// 添加或删除前导0
 				"leading-zero": false,
-				// Unify quotes style.
+				// 引号风格
 				"quotes": "double",
-				// Remove all rulesets that contain nothing but spaces.
+				// 删除空的规则
 				"remove-empty-rulesets": true,
+				// 默认排序方式
 				"sort-order-fallback": "abc",
-				// Set space after `:` in declarations.
+				// 规则中`:`后的字符
 				"space-after-colon": " ",
-				// Set space after combinator (for example, in selectors like `p > a`).
+				// `>`之后的字符(如`p > a`)
 				"space-after-combinator": " ",
-				// Set space after `{`.
+				// 在`{`之后的字符
 				"space-after-opening-brace": "\n",
-				// Set space after selector delimiter.
+				// 选择符中`,`之后的字符
 				"space-after-selector-delimiter": "\n",
-				// Set space before `}`.
+				// `}`之后的字符
 				"space-before-closing-brace": "\n",
-				// Set space before `:` in declarations.
+				// `:`之前的字符
 				"space-before-colon": "",
-				// Set space before combinator (for example, in selectors like `p > a`).
+				// `>`之前的字符(如`p > a`)
 				"space-before-combinator": " ",
-				// Set space before `{`.
+				// `{`之前的字符。
 				"space-before-opening-brace": " ",
-				// Set space before selector delimiter.
+				// 选择符中`,`之前的字符
 				"space-before-selector-delimiter": "",
-				// Set space between declarations (i.e. `color: tomato`).
+				// 每个属性的之间的分隔符
 				"space-between-declarations": "\n",
-				// Whether to trim trailing spaces.
+				// 去除多余的空白字符
 				"strip-spaces": true,
-				"tab-size": true,
-				// Whether to remove units in zero-valued dimensions.
-				"unitless-zero": true
+				// tab的大小
+				"tab-size": 4,
+				// 取值为0时删除单位
+				"unitless-zero": true,
+				// 为私有属性前缀对齐
+				"vendor-prefix-align": false,
 			}
+		},
+		"FixMyJS": {
+			"fixOnSave": true
+		},
+		"JavaScript": {
+			"extensions": [
+				"es6"
+			]
 		},
 		"JsFormat": {
 			// exposed jsbeautifier options
@@ -176,22 +195,6 @@ function settings() {
 			// jsformat options
 			"format_on_save": true,
 			"jsbeautifyrc_files": true
-		},
-		"Preferences": {
-			"default_line_ending": "unix",
-			"dpi_scale": 1,
-			"show_encoding": true,
-			"show_line_endings": true,
-			"tab_size": 4,
-			"translate_tabs_to_spaces": false
-		},
-		"SublimeLinter": {
-			"user": {
-				"show_errors_on_save": true
-			}
-		},
-		"FixMyJS": {
-			"fixOnSave": true
 		},
 		"JSON": {
 			"extensions": [
@@ -204,39 +207,111 @@ function settings() {
 				"sublime-settings",
 			]
 		},
-		"JavaScript": {
-			"extensions": [
-				"es6"
-			]
-		},
 		"HTML": {
 			"extensions": [
 				"htc"
 			]
 		},
+		"Package Control": {
+			"installed_packages": [
+				"Autoprefixer",
+				"BracketHighlighter",
+				"ConvertToUTF8",
+				"CSScomb",
+				"DocBlockr",
+				"Emmet",
+				"HTML-CSS-JS Prettify",
+				"IMESupport",
+				"jQuery",
+				"JsFormat",
+				"LESS",
+				"Nodejs",
+				"Sass",
+				"SFTP",
+				"SideBarEnhancements",
+				"SublimeCodeIntel",
+				"SublimeLinter",
+				"SublimeLinter-contrib-htmlhint",
+				"SublimeLinter-contrib-stylelint",
+				"SublimeLinter-jshint",
+				"SublimeLinter-php",
+				"Terminal"
+			]
+		},
+		"Preferences": {
+			"default_line_ending": "unix",
+			"dpi_scale": 1,
+			"show_encoding": true,
+			"show_line_endings": true,
+			"tab_size": 4,
+			"translate_tabs_to_spaces": false
+		},
+		"SFTP": {
+			"email": "xiaosong@xiaosong.me",
+			"product_key": "d419f6-de89e9-0aae59-2acea1-07f92a"
+		},
+		"SublimeLinter": {
+			"user": {
+				"show_errors_on_save": true
+			}
+		},
 	};
 
+	function mergeArray(target, sources) {
+		sources.forEach(item => {
+			if (target.indexOf(item) < 0) {
+				target.push(item);
+			}
+		});
+		return target;
+	}
+
+	// 更新各插件配置
 	function upCfg(pakName) {
 		var filePath = path.join(dirData, "Packages/User/" + pakName + ".sublime-settings");
 		fs.readFile(filePath, (err, data) => {
 			if (!err) {
+
+				// 尝试将文件内容转json
 				try {
 					data = JSON.parse(data);
 				} catch (ex) {
 					try {
 						data = eval.call(null, "(" + data + ")");
 					} catch (ex) {
-						data = {};
+						err = ex;
 					}
 				}
 			}
 
-			var oldData = err ? null : JSON.stringify(data, null, "\t");
-			var newDataJson = JSON.stringify(Object.assign(cfgs[pakName], err ? {} : data), null, "\t");
+			if (err) {
+				// 配置文件读取错误则直接使用新配置
+				data = JSON.stringify(cfgs[pakName], null, "\t");
+			} else {
 
-			if (err || (oldData !== newDataJson)) {
+				// 合并所有配置项中的数组
+				var oldData = JSON.stringify(data, null, "\t");
+				for (var key in cfgs[pakName]) {
+					if (Array.isArray(data[key]) && Array.isArray(cfgs[pakName][key])) {
+						data[key] = mergeArray(data[key], cfgs[pakName][key]);
+					}
+				}
+
+				// 用老配置覆盖新配置
+				var newDataJson = JSON.stringify(Object.assign(cfgs[pakName], data), null, "\t");
+
+				if (oldData === newDataJson) {
+					// 配置未发生变化
+					data = null;
+				} else {
+					// newDataJson存入data
+					data = newDataJson;
+				}
+			}
+
+			if (data) {
 				// 写文件
-				fs.outputFile(filePath, newDataJson, (err) => {
+				fs.outputFile(filePath, data, err => {
 					if (!err) {
 						console.log("Modified:\tUser/" + pakName + ".sublime-settings");
 					} else {
@@ -255,16 +330,12 @@ function settings() {
 
 // 要汉化的文案
 var hanDate = {
-	"100": "100 个字符宽度",
-	"120": "120 个字符宽度",
-	"70": " 70  个字符宽度",
-	"78": " 78  个字符宽度",
-	"80": " 80  个字符宽度",
 	"About Sublime Text": "关于 Sublime Text",
 	"About": "关于",
 	"Absolute Path From Project Encoded": "项目绝对路径编码",
 	"Absolute Path From Project": "项目绝对路径",
 	"Add Alternate Remote Mapping": "添加备用远程映射",
+	"Add Channel": "添加资源库链接",
 	"Add Current File": "添加当前文件",
 	"Add Exclude Filter": "添加排除筛选器",
 	"Add Folder to Project": "添加文件夹到项目",
@@ -274,27 +345,28 @@ var hanDate = {
 	"Add Open Files": "添加打开的文件",
 	"Add Open Folders": "添加打开的文件夹",
 	"Add Previous Line": "添加至前行",
+	"Add Repository": "添加资源库",
+	"Advanced Install Package": "高级插件安装",
 	"Automatic": "自动编译",
 	"Back to Symbol Definition": "回到到符号定义",
+	"Balance (inward)": "选中子节点",
+	"Balance (outward)": "选中父节点",
 	"Bookmarks": "书签",
-	"Bookmarks: Clear All": "Bookmarks: Clear All → 书签: 清除所有",
-	"Bookmarks: Select All": "Bookmarks: Select All → 书签: 选择所有",
-	"Bookmarks: Select Next": "Bookmarks: Select Next → 书签: 选择下一步",
-	"Bookmarks: Select Previous": "Bookmarks: Select Previous → 书签: 选择以前",
-	"Bookmarks: Toggle": "Bookmarks: Toggle → 书签: 切换",
 	"Bracket Settings - Default": "括号设置 - 默认",
 	"Bracket Settings - User": "括号设置 - 用户",
-	"BracketHighlighter: Toggle Global Enable": "BracketHighlighter: 切换全局启用",
 	"Browse Packages": "浏览插件",
 	"Browse Remote": "浏览远程",
+	"Browse Server": "浏览Browse",
 	"Build Results": "编译结果",
 	"Build System": "编译系统",
 	"Build With": "用其编译",
 	"Cancel Build": "取消编译",
+	"Cancel Upload": "取消上传",
 	"Changelog": "更新日志",
 	"Check for Updates": "检查更新",
 	"Chinese": "中文",
 	"Choose Gutter Theme": "选择简报主题",
+	"Clear All": "清除所有",
 	"Clear Annotations": "清除批注",
 	"Clear Caches": "清除缓存",
 	"Clear Color Scheme Folder": "清除颜色方案文件夹",
@@ -302,6 +374,7 @@ var hanDate = {
 	"Clear Mark": "清除标记",
 	"Clear": "清除",
 	"Close All Files": "关闭所有文件",
+	"Close All": "关闭所有",
 	"Close File": "关闭文件",
 	"Close Group": "关闭分组",
 	"Close Other Tabs": "关闭其它",
@@ -310,8 +383,8 @@ var hanDate = {
 	"Close Window": "关闭窗口",
 	"Close": "关闭",
 	"Code Folding": "代码折叠",
-	"Code Folding: Fold Tag Attributes": "Code Folding: Fold Tag Attributes → 代码折叠: 折叠标签属性",
-	"Code Folding: Unfold All": "Code Folding: Unfold All → 代码折叠: 展开所有",
+	"Code Folding: Fold Tag Attributes": "折叠标签属性",
+	"Code Folding: Unfold All": "展开所有",
 	"Color Scheme": "配色方案",
 	"Columns: 2": "列: 2 窗口",
 	"Columns: 3": "列: 3 窗口",
@@ -319,6 +392,7 @@ var hanDate = {
 	"Command Palette": "命令面板",
 	"Command": "命令",
 	"Comment": "注释",
+	"Compact (Break Selectors No Spaces)": "紧凑 (选择符折行，无空格)",
 	"Compact (Break Selectors)": "紧凑 (选择符折行)",
 	"Compact (Break Selectors, No Spaces)": "紧凑 (选择符折行，无空格)",
 	"Compact (No Spaces)": "紧凑 (无空格)",
@@ -327,24 +401,42 @@ var hanDate = {
 	"Content as Data URI": "内容为 Data URI",
 	"Content as UTF-8": "内容为 UTF-8",
 	"Convert Case": "转换大小写",
-	"Convert Case: Lower Case": "Convert Case: Lower Case → 转换案例: 小写",
-	"Convert Case: Swap Case": "Convert Case: Swap Case → 转换案例: 交换案例",
-	"Convert Case: Title Case": "Convert Case: Title Case → 转换案例: 标题案例",
-	"Convert Case: Upper Case": "Convert Case: Upper Case → 转换案例: 大写",
+	"Convert Case: Lower Case": "小写",
+	"Convert Case: Swap Case": "交换大小写",
+	"Convert Case: Title Case": "标题大小写",
+	"Convert Case: Upper Case": "大写",
 	"Convert Indentation to Spaces": "转换缩进为空格",
 	"Convert Indentation to Tabs": "转换缩进为Tab",
+	"Convert to Spaces": "将转换为空格",
+	"Convert to Tabs": "转换成制表符",
+	"Copy as Tag a": "复制为<a>标签",
+	"Copy as Tag script": "复制为<script>标签",
+	"Copy as Tag style": "复制为<style>标签",
 	"Copy as Text": "复制为文本",
 	"Copy Dir Path": "复制目录路径",
 	"Copy File Path": "复制文件路径",
+	"Copy Name Encoded": "复制文件名编码",
 	"Copy Name": "复制名称",
 	"Copy Path (Windows)": "复制路径 (Windows)",
+	"Copy Path as URI": "复制路径为 URI",
+	"Copy Path From Project Encoded": "复制相对项目路径编码",
+	"Copy Path From Project": "复制相对项目路径",
 	"Copy Path": "复制路径",
+	"Copy to Clipboard": "复制到剪切板",
+	"Copy URL": "复制 URL",
 	"Copy": "复制",
 	"copy": "复制",
+	"Create Binary Package File": "创建二进制插件",
+	"Create Linter Plugin": "创建分析插件",
+	"Create Package File": "创建插件",
 	"Cut": "剪切",
 	"Debug + arguments": "调试 + 参数",
 	"Debug Mode": "调试模式",
 	"Debug": "调试",
+	"Decorate line comment": "装饰行注释",
+	"Decrement Number by 0.1": "递减0.1",
+	"Decrement Number by 1": "递减1",
+	"Decrement Number by 10": "递减10",
 	"Default": "默认",
 	"Delete File": "删除文件",
 	"Delete Folder": "删除文件夹",
@@ -353,6 +445,7 @@ var hanDate = {
 	"Delete Local and Remote Folders": "删除本地和远程文件夹",
 	"Delete Remote File": "删除远程文件",
 	"Delete Remote Folder": "删除远程文件夹",
+	"Delete Server": "删除服务器",
 	"Delete to Beginning": "删除到起始位置",
 	"Delete to End": "删除直至结尾处",
 	"Delete to Mark": "删除已标记",
@@ -362,48 +455,44 @@ var hanDate = {
 	"Dictionary": "词典",
 	"Diff Files": "比较文件",
 	"Diff Remote File": "远程文件差异",
+	"Disable Debug Mode": "禁用调试模式",
+	"Disable Linter": "禁用分析器",
+	"Disable Linting": "禁用分析",
+	"Disable Live Autocompletion for Current Language": "为当前语言禁用动态自动完成功能",
+	"Disable Live Autocompletion": "禁用动态自动完成",
+	"Disable Package": "禁用插件",
+	"Disable Plugin": "禁用插件",
+	"Discover Packages": "搜索插件",
 	"Distraction Free - User": "无干扰模式 - 用户",
-	"DocBlockr: Decorate line comment": "DocBlockr: Decorate line comment → 装饰行注释",
-	"DocBlockr: Reparse comment block": "DocBlockr: Reparse comment block → 重解析块注释",
 	"Documentation": "帮助文档",
+	"Don't Make Warnings Passive": "不要被动警告",
+	"Don’t Show Errors on Save": "在保存时不显示错误",
 	"Download File": "下载文件",
 	"Download Folder": "下载文件夹",
+	"Dump Import Directories": "转储导入目录",
 	"Duplicate": "重复",
 	"Edit Applications": "编辑应用程序",
 	"Edit Preview URLs": "编辑预览 URL",
 	"Edit Project": "编辑项目",
 	"Edit Remote Mapping": "编辑远程映射",
+	"Edit Server": "编辑服务器",
 	"Edit to Right": "在右侧编辑",
 	"Edit": "编辑",
-	"Emmet: Balance (inward)": "Emmet: Balance (inward) → 选中子节点",
-	"Emmet: Balance (outward)": "Emmet: Balance (outward) → 选中父节点",
-	"Emmet: Decrement Number by 0.1": "Emmet: Decrement Number by 0.1 → 递减0.1",
-	"Emmet: Decrement Number by 1": "Emmet: Decrement Number by 1 → 递减1",
-	"Emmet: Decrement Number by 10": "Emmet: Decrement Number by 10 → 递减10",
-	"Emmet: Encode\\Decode Image to data:URL": "Emmet: Encode\\Decode Image to data:URL → 编码\\解码图片为data:URL",
-	"Emmet: Evaluate Math Expression": "Emmet: Evaluate Math Expression → 计算数学表达式的值",
-	"Emmet: Expand Abbreviation": "Emmet: Expand Abbreviation → 展开缩写",
-	"Emmet: Go to Matching Pair": "Emmet: Go to Matching Pair → 跳转到匹配对",
-	"Emmet: Increment Number by 0.1": "Emmet: Increment Number by 0.1 → 递增0.1",
-	"Emmet: Increment Number by 1": "Emmet: Increment Number by 1 → 递增1",
-	"Emmet: Increment Number by 10": "Emmet: Increment Number by 10 → 递增10",
-	"Emmet: Merge Lines": "Emmet: Merge Lines → 合并行",
-	"Emmet: Next Edit Point": "Emmet: Next Edit Point → 下一个编辑点",
-	"Emmet: Previous Edit Point": "Emmet: Previous Edit Point → 上一个编辑点",
-	"Emmet: Reflect CSS Value": "Emmet: Reflect CSS Value → 映射CSS值",
-	"Emmet: Reload Extensions": "Emmet: Reload Extensions → 重加载扩展",
-	"Emmet: Remove Tag": "Emmet: Remove Tag → 删除标签",
-	"Emmet: Rename Tag": "Emmet: Rename Tag → 重命名标签",
-	"Emmet: Select Next Item": "Emmet: Select Next Item → 选中下一项",
-	"Emmet: Select Previous Item": "Emmet: Select Previous Item → 选中上一项",
-	"Emmet: Split\\Join Tag": "Emmet: Split\\Join Tag → 分隔\\合并标签",
-	"Emmet: Toggle Comment": "Emmet: Toggle Comment → 切换注释",
-	"Emmet: Update Image Size": "Emmet: Update Image Size → 更新图像大小",
-	"Emmet: Wrap With Abbreviation": "Emmet: Wrap With Abbreviation → 用缩写包裹",
 	"Empty": "空",
+	"Enable Debug Mode": "开启调试模式",
+	"Enable Linter": "开启语法分析器",
+	"Enable Linting": "开启分析",
+	"Enable Live Autocompletion for Current Language": "为当前语言启用动态自动完成功能",
+	"Enable Live Autocompletion": "启用动态自动完成",
+	"Enable Package": "启用插件",
+	"Enable Plugin": "启用插件",
+	"Encode Special Characters": "特殊字符进行编码",
+	"Encode\\Decode Image to data:URL": "编码\\解码图片为data:URL",
 	"Enter License": "输入许可证",
+	"Evaluate Math Expression": "计算数学表达式的值",
 	"Example Key Bindings": "按键绑定 - 示例",
 	"Exit": "退出",
+	"Expand Abbreviation": "展开缩写",
 	"Expand Selection to Brackets": "扩展所选括号",
 	"Expand Selection to Indentation": "扩展所选缩进",
 	"Expand Selection to Line": "扩展选定的行",
@@ -413,35 +502,8 @@ var hanDate = {
 	"Expand Selection to Word": "扩展选定的词",
 	"Expanded (Break Selectors)": "展开 (选择符折行)",
 	"Expanded": "展开",
+	"Export HTML in Sublime Text": "导出 HTML 到 Sublime Text",
 	"File": "文件",
-	"File: Close All": "File: Close All → 文件: 关闭所有",
-	"File: Copy as Tag a": "File: Copy as Tag a → 文件: 复制为链<a>标签",
-	"File: Copy as Tag script": "File: Copy as Tag script → 文件: 复制为<script>标签",
-	"File: Copy as Tag style": "File: Copy as Tag style → 文件: 复制为样式标签",
-	"File: Copy Name Encoded": "文件: 复制文件名编码",
-	"File: Copy Name": "File: Copy Name → : 文件: 复制文件名",
-	"File: Copy Path (Windows)": "File: Copy Path (Windows) → 文件: 复制路径 (Windows)",
-	"File: Copy Path as URI": "File: Copy Path as URI → 文件: 复制路径为 URI",
-	"File: Copy Path From Project Encoded": "文件: 复制相对项目路径编码",
-	"File: Copy Path From Project": "File: Copy Path From Project → 文件: 复制相对项目路径",
-	"File: Copy Path": "File: Copy Path → 文件: 复制路径",
-	"File: Copy URL": "File: Copy URL → 文件: 复制 URL",
-	"File: Delete": "File: Delete → 文件: 删除",
-	"File: Duplicate": "文件: 重复",
-	"File: Locate": "文件: 定位",
-	"File: Move": "File: Move → 文件: 移动",
-	"File: New File Relative to Current View": "文件: 相对当前视图新建文件",
-	"File: New File Relative to Project Root": "文件: 相对项目根目录新建文件",
-	"File: New Folder Relative to Current View": "文件: 相对当前视图新建文件夹",
-	"File: New Folder Relative to Project Root": "文件: 相对项目根目录新建文件夹",
-	"File: New View into File": "File: New View into File → 文件: 新的视图到文件",
-	"File: Open In Browser - Production Server": "File: Open In Browser - Production Server → 文件: 在浏览器中打开 - 生产服务器",
-	"File: Open In Browser - Testing Server": "File: Open In Browser - Testing Server → 文件: 在浏览器中打开 - 测试服务器",
-	"File: Rename": "File: Rename → 文件: 重命名",
-	"File: Reveal": "文件: 揭示",
-	"File: Revert": "File: Revert → 文件: 恢复",
-	"File: Save All": "File: Save All → 文件: 保存所有",
-	"File: Search Files": "File: Search Files → 文件: 搜索文件",
 	"Filter Rules by Key": "由键筛选器规则",
 	"Find & Replace": "查找与替换",
 	"Find Advanced": "高级查找",
@@ -464,20 +526,14 @@ var hanDate = {
 	"Fold Level 9": "折叠 9 层",
 	"Fold Tag Attributes": "折叠标签属性",
 	"Font": "字体设置",
-	"Format CSS: Compact (Break Selectors No Spaces)": "Format CSS: Compact (Break Selectors No Spaces) → 紧凑 (选择符折行，无空格)",
-	"Format CSS: Compact (Break Selectors)": "Format CSS: Compact (Break Selectors) → 紧凑 (选择符折行)",
-	"Format CSS: Compact (No Spaces)": "Format CSS: Compact (No Spaces) → 紧凑 (无空格)",
-	"Format CSS: Compact": "Format CSS: Compact → 紧凑",
-	"Format CSS: Compressed": "Format CSS: Compressed → 压缩",
-	"Format CSS: Expanded (Break Selectors)": "Format CSS: Expanded (Break Selectors) → 展开 (选择符折行)",
-	"Format CSS: Expanded": "Format CSS: Expanded → 展开",
-	"Format: Javascript": "Format: Javascript → 格式化: Javascript",
+	"Go to Matching Pair": "跳转到匹配对",
 	"Goto Anything": "转到任何",
 	"Goto Definition": "转到定义",
 	"Goto Line": "转到行",
 	"Goto Symbol in Project": "转至项目中的符号",
 	"Goto Symbol": "转到符号",
 	"Goto": "转到",
+	"Grab CA Certs": "获取 CA 证书",
 	"Grid: 4": "网格: 4 画面",
 	"Group 1": "分组 1",
 	"Group 2": "分组 2",
@@ -488,21 +544,21 @@ var hanDate = {
 	"Help": "帮助",
 	"Hexadecimal": "十六进制",
 	"Hide From Sidebar (In theory exclude from project)": "从侧边栏隐藏 (理论上从项目中排除)",
-	"HTML: Encode Special Characters": "HTML: Encode Special Characters → HTML: 特殊字符进行编码",
-	"HTML: Wrap Selection With Tag": "HTML: Wrap Selection With Tag → HTML: 环绕选定内容与标记",
 	"In Parent Folder": "在父文件夹",
 	"In Paths Containing": "在路径中包含",
 	"In Project Folder": "在项目文件夹",
 	"In Project Folders": "在全部项目文件夹",
 	"In Project": "在项目",
+	"Increment Number by 0.1": "递增0.1",
+	"Increment Number by 1": "递增1",
+	"Increment Number by 10": "递增10",
 	"Incremental Find": "增量查找",
 	"Indent Using Spaces": "使用空格缩进",
 	"Indentation": "缩进",
-	"Indentation: Convert to Spaces": "Indentation: Convert to Spaces → 缩进: 将转换为空格",
-	"Indentation: Convert to Tabs": "Indentation: Convert to Tabs → 缩进: 转换成制表符",
-	"Indentation: Reindent Lines": "Indentation: Reindent Lines → 缩进: Reindent 线",
 	"Insert Line After": "插入至行后",
 	"Insert Line Before": "插入至行前",
+	"Install Local Dependency": "安装本地依赖项",
+	"Install Package": "安装插件",
 	"Install": "安装",
 	"Jump Back": "向后跳转",
 	"Jump Forward": "向前跳转",
@@ -523,7 +579,10 @@ var hanDate = {
 	"Lint Code": "分析代码",
 	"Lint Mode": "分析模式",
 	"Lint This View": "分析此视图",
+	"List Packages": "列出插件",
+	"List Unmanaged Packages": "列出未托管插件",
 	"List": "列表",
+	"Locate": "定位",
 	"Lower Case": "改为小写",
 	"Mac OS 9 Line Endings (CR)": "Mac OS 9 换行符 (CR)",
 	"Macros": "宏",
@@ -538,6 +597,7 @@ var hanDate = {
 	"Max Columns: 3": "最多3栏",
 	"Max Columns: 4": "最多4栏",
 	"Max Columns: 5": "最多5栏",
+	"Merge Lines": "合并行",
 	"Monitor File (Upload on External Save)": "监控文件 (外部保存时上传)",
 	"Mouse Bindings - Default": "鼠标绑定 - 默认",
 	"Mouse Bindings - Example": "鼠标绑定 - 示例",
@@ -548,7 +608,11 @@ var hanDate = {
 	"Move": "移动",
 	"Name Encoded": "文件名编码",
 	"New Build System": "新编译系统",
+	"New File Relative to Current View": "相对当前视图新建文件",
+	"New File Relative to Project Root": "相对项目根目录新建文件",
 	"New File": "新建文件",
+	"New Folder Relative to Current View": "相对当前视图新建文件夹",
+	"New Folder Relative to Project Root": "相对项目根目录新建文件夹",
 	"New Folder": "新建文件夹",
 	"New Group": "新建分组",
 	"New Plugin": "新插件",
@@ -557,20 +621,26 @@ var hanDate = {
 	"New View into File": "新标签中打开当前文件",
 	"New Window": "新建窗口",
 	"New Workspace for Project": "为项目新建工作区",
+	"Next Edit Point": "下一个编辑点",
 	"Next Error": "下一个错误",
 	"Next File in Stack": "堆栈中的下一个文件",
 	"Next File": "下一个文件",
 	"Next": "下一个",
+	"No Column Highlights Entire Line": "只标记整行，而非列",
 	"No Column Highlights Line": "高亮线不分列",
+	"No Column Only Marks Gutter": "只标记简报，而非列",
 	"None": "无",
 	"Open / Run": "打开/运行",
 	"Open Containing Folder": "打开所在的文件夹",
 	"Open File": "打开文件",
 	"Open Folder": "打开文件夹",
 	"Open In All Browsers": "在所有的浏览器中打开",
+	"Open In Browser - Production Server": "在浏览器中打开 - 生产服务器",
+	"Open In Browser - Testing Server": "在浏览器中打开 - 测试服务器",
 	"Open in Browser": "在浏览器中打开",
 	"Open In Browser": "在浏览器中打开",
 	"Open In New Window": "在新窗口中打开",
+	"Open Markdown Cheat sheet": "打开Markdown速查表",
 	"Open Project": "打开项目",
 	"Open Recent": "最近的项目",
 	"Open Terminal Here": "在此处打开终端",
@@ -579,27 +649,10 @@ var hanDate = {
 	"Open With": "打开方式",
 	"Open": "打开",
 	"OS Specific - User": "特定操作系统 - 用户",
-	"Package Control": "插件控制",
-	"Package Control: Add Channel": "Package Control: Add Channel → 添加资源库链接",
-	"Package Control: Add Repository": "Package Control: Add Repository → 添加资源库",
-	"Package Control: Advanced Install Package": "Package Control: Advanced Install Package → 高级插件安装",
-	"Package Control: Create Binary Package File": "Package Control: Create Binary Package File → 创建二进制插件",
-	"Package Control: Create Package File": "Package Control: Create Package File → 创建插件",
-	"Package Control: Disable Package": "Package Control: Disable Package → 禁用插件",
-	"Package Control: Discover Packages": "Package Control: Discover Packages → 搜索插件",
-	"Package Control: Enable Package": "Package Control: Enable Package → 启用插件",
-	"Package Control: Grab CA Certs": "Package Control: Grab CA Certs → 获取 CA 证书",
-	"Package Control: Install Local Dependency": "Package Control: Install Local Dependency → 安装本地依赖项",
-	"Package Control: Install Package": "Package Control: Install Package → 安装插件",
-	"Package Control: List Packages": "Package Control: List Packages → 列出插件",
-	"Package Control: List Unmanaged Packages": "Package Control: List Unmanaged Packages → 列出未托管插件",
-	"Package Control: Remove Channel": "Package Control: Remove Channel → 删除通道",
-	"Package Control: Remove Package": "Package Control: Remove Package → 删除插件",
-	"Package Control: Remove Repository": "Package Control: Remove Repository → 删除资源库",
-	"Package Control: Satisfy Dependencies": "Package Control: Satisfy Dependencies → 满足依赖性",
-	"Package Control: Tests": "Package Control: Tests → 测试",
-	"Package Control: Upgrade Package": "Package Control: Upgrade Package → 升级插件",
-	"Package Control: Upgrade/Overwrite All Packages": "Package Control: Upgrade/Overwrite All Packages → 升级/覆盖所有插件",
+	"Output Panel": "输出面板",
+	"Package Control Settings - Default": "插件管理器设置 - 默认",
+	"Package Control Settings - User": "插件管理器设置 - 用户",
+	"Package Control": "插件控制器",
 	"Package Settings": "插件设置",
 	"Packages": "插件",
 	"Paste from History": "从历史中粘贴",
@@ -608,44 +661,22 @@ var hanDate = {
 	"Paste": "粘贴",
 	"Path as URI": "作为 URI 的路径",
 	"Path": "路径",
-	"Permute Lines": "重新排列行序",
-	"Permute Lines: Reverse": "Permute Lines: Reverse → 置换行: 反向",
-	"Permute Lines: Shuffle": "Permute Lines: Shuffle → 置换行: 洗牌",
-	"Permute Lines: Unique": "Permute Lines: Unique → 置换行: 独特",
-	"Permute Selections": "重新排列选择",
-	"Permute Selections: Reverse": "Permute Selections: Reverse → 排列选择: 反向",
-	"Permute Selections: Shuffle": "Permute Selections: Shuffle → 排列选择: 洗牌",
-	"Permute Selections: Sort (Case Sensitive)": "Permute Selections: Sort (Case Sensitive) → 排列选择: 排序 (区分大小写)",
-	"Permute Selections: Sort": "Permute Selections: Sort → 排列选择: 排序",
-	"Permute Selections: Unique": "Permute Selections: Unique → 排列选择: 独特",
+	"Permute Lines": "重排行序",
+	"Permute Selections": "置换选定",
 	"Playback Macro": "播放宏",
-	"Plugin Development: Profile Events": "Plugin Development: Profile Events → 插件开发: 事件简报",
+	"Plugin Development": "插件开发",
 	"Preferences": "首选项",
-	"Preferences: Browse Packages": "Preferences: Browse Packages → 首选项: 浏览程序包",
-	"Preferences: Key Bindings - Default": "Preferences: Key Bindings - Default → 首选项: 按键绑定的默认值",
-	"Preferences: Key Bindings - User": "Preferences: Key Bindings - User → 首选项: 按键绑定 - 用户",
-	"Preferences: Package Control Settings - Default": "Preferences: Package Control Settings - Default → 插件管理器设置 - 默认",
-	"Preferences: Package Control Settings - User": "Preferences: Package Control Settings - User → 插件管理器设置 - 用户",
-	"Preferences: Settings - Default": "Preferences: Settings - Default → 首选项: 设置 - 默认",
-	"Preferences: Settings - User": "Preferences: Settings - User → 首选项: 设置 - 用户",
-	"Preferences: SublimeLinter Key Bindings - Default": "Preferences: SublimeLinter Key Bindings - Default → 首选项: SublimeLinter 按键绑定 - 默认",
-	"Preferences: SublimeLinter Key Bindings - User": "Preferences: SublimeLinter Key Bindings - User → 首选项: SublimeLinter 按键绑定 - 用户",
-	"Preferences: SublimeLinter Settings - Default": "Preferences: SublimeLinter Settings - Default → 首选项: SublimeLinter 设置 - 默认",
-	"Preferences: SublimeLinter Settings - User": "Preferences: SublimeLinter Settings - User → 首选项: SublimeLinter 设置 - 用户",
 	"Prettify Code": "代码美化",
+	"Preview in Browser": "在浏览器中预览",
+	"Previous Edit Point": "上一个编辑点",
 	"Previous Error": "上一个错误",
 	"Previous File in Stack": "堆栈中的上一个文件",
 	"Previous File": "上一个文件",
 	"Previous Result": "上一个结果",
 	"Previous": "上一个",
+	"Profile Events": "事件简报",
 	"Project Folders": "项目文件夹",
 	"Project": "项目",
-	"Project: Add Folder": "Project: Add Folder → 项目: 添加文件夹",
-	"Project: Close": "Project: Close → 项目: 密切",
-	"Project: Edit Project": "Project: Edit Project → 项目: 编辑项目",
-	"Project: Edit": "Project: Edit → 项目: 编辑",
-	"Project: Refresh Folders": "Project: Refresh Folders → 项目: 刷新文件夹",
-	"Project: Save As": "Project: Save As → 项目: 将另存为",
 	"Promote as Project Folder": "提升为项目文件夹",
 	"Publish": "发布",
 	"Quick Add Next": "快速选中下一个",
@@ -656,49 +687,68 @@ var hanDate = {
 	"Quit": "退出",
 	"README": "文档",
 	"Recent Projects": "切换项目",
+	"Reflect CSS Value": "映射CSS值",
 	"Refresh Folders": "刷新文件夹",
 	"Refresh": "刷新",
+	"Reindent Lines": "重新缩进",
 	"Relative Path From Project Encoded": "相对项目路径编码",
 	"Relative Path From Project": "相对项目路径",
 	"Relative Path From View Encoded": "相对视图路径编码",
 	"Relative Path From View": "相对视图路径",
+	"Reload Extensions": "重加载扩展",
 	"Reload with Encoding": "按编码重新加载",
 	"Remove all Folders from Project": "从项目中删除所有文件夹",
 	"Remove Brackets": "删除括号",
+	"Remove Channel": "删除通道",
 	"Remove Folder from Project": "从项目中删除文件夹",
+	"Remove Package": "删除插件",
+	"Remove Repository": "删除资源库",
+	"Remove Tag": "删除标签",
 	"Rename Local and Remote Files": "重命名本地和远程文件",
 	"Rename Local and Remote Folders": "重命名本地和远程文件夹",
+	"Rename Tag": "重命名标签",
 	"Rename": "重命名",
 	"Reopen Closed File": "重新打开已关闭文件",
 	"Reopen with Encoding": "重新打开编码",
+	"Reparse comment block": "重解析块注释",
 	"Replace": "替换",
+	"Report (Open Files)": "报告 (打开文件)",
 	"Reset": "重置",
 	"Reveal in Side Bar": "在侧边栏中显示",
 	"Reveal": "浏览",
 	"Reverse": "反向",
 	"Revert File": "还原文件",
-	"Rot13 Selection": "Rot13 Selection → Rot13 选定",
+	"Revert": "恢复",
+	"Rot13 Selection": "Rot13 选定",
 	"Rows: 2": "行: 2 窗口",
 	"Rows: 3": "行: 3 窗口",
 	"Ruler": "标尺",
 	"Run + arguments": "运行 + 参数",
 	"Run CSScomb": "运行 CSScomb",
 	"Run": "运行",
+	"Satisfy Dependencies": "满足依赖性",
 	"Save All on Build": "保存所有编译",
 	"Save All": "全部保存",
 	"Save As": "另存为",
 	"Save Macro": "保存宏",
 	"Save Project As": "项目另存为",
+	"Save to HTML": "保存为HTML",
 	"Save with Encoding": "保存使用编码",
 	"Save Workspace As": "工作区另存为",
 	"Save": "保存",
 	"Scroll to Selection": "滚动到选定内容",
 	"Scroll": "滚动",
+	"Search Files": "搜索文件",
 	"Search": "搜索",
+	"Select All": "选择所有",
 	"Select Bracket Content with Brackets": "选择括号内容及括号",
 	"Select Bracket Content": "选择括号内容",
 	"Select Next Attribute (left)": "选择下一个属性 (左)",
 	"Select Next Attribute (right)": "选择下一个属性 (右)",
+	"Select Next Item": "选中下一项",
+	"Select Next": "选择下一步",
+	"Select Previous Item": "选中上一项",
+	"Select Previous": "选择上一步",
 	"Select Tag Name (closing and opening)": "选择标签名 (关闭和打开)",
 	"Select to Mark": "选择已标记",
 	"Selection": "选择",
@@ -713,55 +763,33 @@ var hanDate = {
 	"Settings - More": "设置 - 更多",
 	"Settings - Syntax Specific - User": "设置 - 特定语法 - 用户",
 	"Settings - User": "设置 - 用户",
+	"Setup Server": "安装服务器",
+	"SFTP Key Bindings": "SFTP 按键绑定",
+	"SFTP Settings": "SFTP 设置",
 	"Show All Errors": "显示所有错误",
 	"Show Build Results": "显示编译结果",
 	"Show Completions": "显示完成",
 	"Show Errors on Save": "在保存时显示错误",
 	"Show Merged Rules": "显示合并的规则",
-	"Show Results Panel": "显示查找结果",
+	"Show Panel": "显示面板",
+	"Show Results Panel": "显示结果面板",
 	"Show Unsaved Changes": "显示未保存的更改",
 	"Shuffle": "无序",
 	"Side Bar": "侧边栏",
-	"Side Bar: Refresh": "Side Bar: Refresh → 侧边栏: 刷新",
 	"Single": "单窗口",
 	"Smaller": "较小",
 	"Snippets": "代码片段",
-	"Sort (Case Sensitive)": "排序(区分大小写)",
+	"Sort (Case Sensitive)": "排序 (区分大小写)",
 	"Sort Lines (Case Sensitive)": "按行排序(区分大小写)",
 	"Sort Lines": "按行排序",
 	"Sort": "排序",
 	"Spell Check": "拼写检查",
 	"Split into Lines": "拆分成行",
-	"SublimeCodeIntel: Disable Live Autocompletion for Current Language": "SublimeCodeIntel: Disable Live Autocompletion for Current Language → 为当前语言禁用动态自动完成功能",
-	"SublimeCodeIntel: Disable Live Autocompletion": "SublimeCodeIntel: Disable Live Autocompletion → 禁用动态自动完成",
-	"SublimeCodeIntel: Disable Plugin": "SublimeCodeIntel: Disable Plugin → 禁用插件",
-	"SublimeCodeIntel: Dump Import Directories": "SublimeCodeIntel: Dump Import Directories → 转储导入目录",
-	"SublimeCodeIntel: Enable Live Autocompletion for Current Language": "SublimeCodeIntel: Enable Live Autocompletion for Current Language → 为当前语言启用动态自动完成功能",
-	"SublimeCodeIntel: Enable Live Autocompletion": "SublimeCodeIntel: Enable Live Autocompletion → 启用动态自动完成",
-	"SublimeCodeIntel: Enable Plugin": "SublimeCodeIntel: Enable Plugin → 启用插件",
-	"SublimeCodeIntel: Reset": "SublimeCodeIntel: Reset → 重置",
-	"SublimeLinter: Choose Gutter Theme": "SublimeLinter: Choose Gutter Theme → SublimeLinter: 选择选择简报主题",
-	"SublimeLinter: Clear Caches": "SublimeLinter: Clear Caches → SublimeLinter: 清除缓存",
-	"SublimeLinter: Clear Color Scheme Folder": "SublimeLinter: Clear Color Scheme Folder → SublimeLinter: 清空色彩方案文件夹",
-	"SublimeLinter: Create Linter Plugin": "SublimeLinter: Create Linter Plugin → SublimeLinter: 创建分析插件",
-	"SublimeLinter: Disable Debug Mode": "SublimeLinter: Disable Debug Mode → SublimeLinter: 禁用调试模式",
-	"SublimeLinter: Disable Linter": "SublimeLinter: Disable Linter → SublimeLinter: 禁用分析器",
-	"SublimeLinter: Disable Linting": "SublimeLinter: Disable Linting → SublimeLinter: 禁用分析",
-	"SublimeLinter: Don't Make Warnings Passive": "SublimeLinter: Don't Make Warnings Passive → SublimeLinter: 不要被动警告",
-	"SublimeLinter: Don’t Show Errors on Save": "SublimeLinter: Don’t Show Errors on Save → SublimeLinter: 在保存时不显示错误",
-	"SublimeLinter: Enable Debug Mode": "SublimeLinter: Enable Debug Mode → SublimeLinter: 开启调试模式",
-	"SublimeLinter: Enable Linter": "SublimeLinter: Enable Linter → SublimeLinter: 开启语法分析器",
-	"SublimeLinter: Enable Linting": "SublimeLinter: Enable Linting → SublimeLinter: 开启分析",
-	"SublimeLinter: Lint This View": "SublimeLinter: Lint This View → SublimeLinter: 分析此视图",
-	"SublimeLinter: Make Warnings Passive": "SublimeLinter: Make Warnings Passive → SublimeLinter: 被动警告",
-	"SublimeLinter: Next Error": "SublimeLinter: Next Error → SublimeLinter: 下一个错误",
-	"SublimeLinter: No Column Highlights Entire Line": "SublimeLinter: No Column Highlights Entire Line → SublimeLinter: 只标记整行，而非列",
-	"SublimeLinter: No Column Only Marks Gutter": "SublimeLinter: No Column Only Marks Gutter → SublimeLinter: 只标记简报，而非列",
-	"SublimeLinter: Previous Error": "SublimeLinter: Previous Error → SublimeLinter: 上一个错误",
-	"SublimeLinter: Report (Open Files)": "SublimeLinter: Report (Open Files) → SublimeLinter: 报告 (打开文件)",
-	"SublimeLinter: Show All Errors": "SublimeLinter: Show All Errors → SublimeLinter: 显示所有错误",
-	"SublimeLinter: Show Errors on Save": "SublimeLinter: Show Errors on Save → SublimeLinter: 在保存时显示错误",
-	"SublimeLinter: Toggle Linter": "SublimeLinter: Toggle Linter → SublimeLinter: 切换语法分析器",
+	"Split\\Join Tag": "分隔\\合并标签",
+	"SublimeLinter Key Bindings - Default": "SublimeLinter 按键绑定 - 默认",
+	"SublimeLinter Key Bindings - User": "SublimeLinter 按键绑定 - 用户",
+	"SublimeLinter Settings - Default": "SublimeLinter 设置 - 默认",
+	"SublimeLinter Settings - User": "SublimeLinter 设置 - 用户",
 	"Swap Brackets": "互换括号",
 	"Swap Case": "互换大小写",
 	"Swap Quotes": "互换引号",
@@ -793,13 +821,22 @@ var hanDate = {
 	"Tag Settings - User": "标签设置 - 用户",
 	"Tag style": "样式标签",
 	"Tag": "标签",
+	"Tests": "测试",
 	"Text": "文本",
 	"Title Case": "首字母大写",
 	"Toggle Block Comment": "开启/关闭段注释",
 	"Toggle Comment": "开启/关闭行注释",
+	"Toggle Global Enable": "切换全局启用",
 	"Toggle High Visibility Mode": "切换高可见性模式",
 	"Toggle Linter": "切换语法分析器",
+	"Toggle Menu": "切换菜单",
+	"Toggle Minimap": "切换地图",
+	"Toggle Open Files in Side Bar": "切换在侧栏中打开的文件",
+	"Toggle Side Bar": "切换侧栏",
+	"Toggle Status Bar": "切换状态栏",
 	"Toggle String Bracket Escape Mode": "切换括号内字符串超长隐藏模式",
+	"Toggle Tabs": "切换选项卡",
+	"Toggle": "切换",
 	"Tools": "工具",
 	"Twitter": "推特",
 	"Undo Selection": "撤销选择",
@@ -807,7 +844,10 @@ var hanDate = {
 	"Uninstall": "卸载",
 	"Unique": "唯一",
 	"Unix Line Endings (LF)": "Unix 换行符 (LF)",
+	"Update Image Size": "更新图像大小",
 	"Update": "更新",
+	"Upgrade Package": "升级插件",
+	"Upgrade/Overwrite All Packages": "升级/覆盖所有插件",
 	"Upload File": "上传文件",
 	"Upload Folder": "上传文件夹",
 	"Upload Open Files": "上传打开的文件",
@@ -820,17 +860,10 @@ var hanDate = {
 	"UTF-16 LE with BOM": "UTF-16 LE 包含BOM",
 	"UTF-8 with BOM": "UTF-8 包含BOM",
 	"View README in Github": "在Github上阅读文档",
-	"View": "查看",
-	"View: Toggle Menu": "View: Toggle Menu → 视图: 切换菜单",
-	"View: Toggle Minimap": "View: Toggle Minimap → 视图: 切换地图",
-	"View: Toggle Open Files in Side Bar": "View: Toggle Open Files in Side Bar → 视图: 切换在侧栏中打开的文件",
-	"View: Toggle Side Bar": "View: Toggle Side Bar → 视图: 切换侧栏",
-	"View: Toggle Status Bar": "View: Toggle Status Bar → 视图: 切换状态栏",
-	"View: Toggle Tabs": "View: Toggle Tabs → 视图: 切换选项卡",
+	"View": "视图",
 	"Windows Line Endings (CRLF)": "Windows 换行符 (CRLF)",
 	"Word Wrap Column": "自动换行列",
-	"Word Wrap": "自动换行",
-	"Word Wrap: Toggle": "Word Wrap: Toggle → 单词换行: 切换",
+	"Word Wrap": "单词换行",
 	"Wrap paragraph at 100 characters": "换行段落为 100 个字符",
 	"Wrap paragraph at 120 characters": "换行段落为 120 个字符",
 	"Wrap paragraph at 70 characters": "换行段落为  70 个字符",
@@ -841,6 +874,7 @@ var hanDate = {
 	"Wrap Selections with Brackets": "用括号包裹选中区域",
 	"Wrap Settings - Default": "包裹设置 - 默认",
 	"Wrap Settings - User": "包裹设置 - 用户",
+	"Wrap With Abbreviation": "用缩写包裹",
 	"Wrap": "自动换行",
 };
 
@@ -978,11 +1012,14 @@ function fixObj(obj, skip) {
 			var caption = /^(.*?)(…)?$/.exec(obj.caption);
 			var hanCaption = "";
 			if (caption && caption[1]) {
-				if (hanDate[caption[1]]) {
+				var prefixCaption = /^([^:]+)\:\s*(.+)$/.exec(caption[1]);
+				if (prefixCaption && hanDate[prefixCaption[2]]) {
+					hanCaption = caption[1] + " → " + (hanDate[prefixCaption[1]] || prefixCaption[1]) + ": " + hanDate[prefixCaption[2]];
+				} else if (hanDate[caption[1]]) {
 					// 普通文案翻译
 					hanCaption = hanDate[caption[1]];
 				} else if (obj.args && obj.args.encoding) {
-					// 文语言名称翻译
+					// 语言名称翻译
 					hanCaption = caption[1].replace(/^([A-Z]+\w+(?:\s+[A-Z]+\w+)*)(\s\(.*?\))$/, (s, langName, code) => {
 						if (langHan[langName]) {
 							return langHan[langName] + code;
@@ -1056,7 +1093,7 @@ function hanJsonFile(data, subPath, isReplace) {
 			}
 
 			// 数据汉化，写文件
-			fs.outputFile(filePath, newDataJson, (err) => {
+			fs.outputFile(filePath, newDataJson, err => {
 				if (!err) {
 					console.log("Modified:\t" + subPath);
 				} else {
@@ -1111,13 +1148,8 @@ function init() {
 				dir = path.join(dirPackages, dir);
 				fs.readdir(dir, (err, files) => {
 					if (!err) {
-						var hasNode = 0;
 						files.forEach((file) => {
-							if ("package.json" === file) {
-								++hasNode;
-							} else if ("node_modules" === file) {
-								++hasNode;
-							} else if (reExt.test(file) && !fileCache[file = path.join(dir, file)]) {
+							if (reExt.test(file) && !fileCache[file = path.join(dir, file)]) {
 								fs.readFile(file, (err, data) => {
 									if (!err) {
 										hanJsonFile(data.toString(), path.relative(dirPackages, file));
@@ -1125,16 +1157,6 @@ function init() {
 								});
 							}
 						});
-						if (hasNode > 1) {
-							require("child_process").exec("npm update", {
-								cwd: dir,
-							}, (error, stdout) => {
-								if (!error && stdout) {
-									console.log(dir);
-									console.log(stdout);
-								}
-							});
-						}
 					}
 				});
 			});
@@ -1142,7 +1164,7 @@ function init() {
 	});
 }
 
-fs.access(path.join(__dirname, "sublime_text" + (process.platform === "win32" ? ".exe" : "")), fs.F_OK, (err) => {
+fs.access(path.join(__dirname, "sublime_text" + (process.platform === "win32" ? ".exe" : "")), fs.F_OK, err => {
 	if (err) {
 		switch (process.platform) {
 			case "win32":
@@ -1159,9 +1181,9 @@ fs.access(path.join(__dirname, "sublime_text" + (process.platform === "win32" ? 
 	}
 	dirData = path.join(dirRoot, "Data");
 
-	fs.access(path.join(dirRoot, "Pristine Packages"), fs.F_OK, (err) => {
+	fs.access(path.join(dirRoot, "Pristine Packages"), fs.F_OK, err => {
 		var ver = err ? 3 : 2;
-		fs.access(dirData, fs.F_OK, (err) => {
+		fs.access(dirData, fs.F_OK, err => {
 			if (err) {
 				console.log(path.resolve());
 				switch (process.platform) {
