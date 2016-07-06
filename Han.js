@@ -220,6 +220,7 @@ function settings() {
 				"CSScomb",
 				"DocBlockr",
 				"Emmet",
+				"FixMyJS",
 				"HTML-CSS-JS Prettify",
 				"IMESupport",
 				"jQuery",
@@ -356,7 +357,7 @@ var hanDate = {
 	"Bracket Settings - User": "括号设置 - 用户",
 	"Browse Packages": "浏览插件",
 	"Browse Remote": "浏览远程",
-	"Browse Server": "浏览Browse",
+	"Browse Server": "浏览服务器",
 	"Build Results": "编译结果",
 	"Build System": "编译系统",
 	"Build With": "用其编译",
@@ -1041,8 +1042,10 @@ function fixObj(obj, skip) {
 			}
 
 			if (hanCaption) {
-				if (obj.mnemonic && !(new RegExp(obj.mnemonic, "i").test(hanCaption))) {
-					hanCaption += "(" + obj.mnemonic.toUpperCase() + ")";
+				if (obj.mnemonic && !(new RegExp(obj.mnemonic).test(hanCaption))) {
+					var mnemonic = obj.mnemonic.toUpperCase();
+					hanCaption += "(" + mnemonic + ")";
+					obj.mnemonic = mnemonic;
 				}
 				if (caption[2]) {
 					hanCaption += caption[2];
