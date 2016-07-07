@@ -44,10 +44,6 @@ B98FC99C 8FAC73EE D2B95564 DF450523
 					console.log("License:\t" + filePath);
 				}
 			});
-			// } else {
-			// 	fs.readFile(filePath, (err, date) => {
-			// 		console.log(date.toString("base64"));
-			// 	});
 		}
 	});
 }
@@ -137,10 +133,10 @@ function settings() {
 				"eof-newline": true,
 				// 要排除的文件
 				"exclude": [
-					".hg/**",
 					".git/**",
-					"node_modules/**",
-					"bower_components/**"
+					".hg/**",
+					"bower_components/**",
+					"node_modules/**"
 				],
 				// 添加或删除前导0
 				"leading-zero": false,
@@ -173,7 +169,7 @@ function settings() {
 				// 去除多余的空白字符
 				"strip-spaces": true,
 				// tab的大小
-				"tab-size": 4,
+				"tab-size": false,
 				// 取值为0时删除单位
 				"unitless-zero": true,
 				// 为私有属性前缀对齐
@@ -1182,30 +1178,47 @@ fs.access(path.join(__dirname, "sublime_text" + (process.platform === "win32" ? 
 	} else {
 		dirRoot = __dirname;
 	}
-	dirData = path.join(dirRoot, "Data");
 
-	fs.access(path.join(dirRoot, "Pristine Packages"), fs.F_OK, err => {
-		var ver = err ? 3 : 2;
-		fs.access(dirData, fs.F_OK, err => {
-			if (err) {
-				console.log(path.resolve());
-				switch (process.platform) {
-					case "win32":
-						dirData = path.join(process.env.APPDATA, "Sublime Text " + ver);
-						break;
-					case "linux":
-						dirData = "~/.config/sublime-text-" + ver;
-						break;
-					case "darwin":
-						dirData = "~/Library/Application Support/Sublime Text " + ver;
-				}
-			}
+	dirData = (function() {
+		try {
+			fs.accessSync("Data");
+			return path.resolve("Data");
+		} catch (ex) {
 
-			init();
-			outputLicense(ver);
-			contextMenu();
-			installPackage();
-			settings();
-		});
-	});
+		}
+		switch (process.platform) {
+			case "win32":
+				dirData = path.join(process.env.APPDATA, "Sublime Text ");
+				break;
+			case "linux":
+				dirData = path.join(process.env.HOME, ".config/sublime-text-");
+				break;
+			case "darwin":
+				dirData = path.join(process.env.HOME, "Library/Application Support/Sublime Text ");
+		}
+
+		try {
+			fs.accessSync(dirData + 3);
+			return dirData + 3;
+		} catch (ex) {
+
+		}
+		try {
+			fs.accessSync(dirData + 2);
+			return dirData + 2;
+		} catch (ex) {
+
+		}
+
+		console.error("sublime未找到,请安装sublime后至少运行一次");
+	})();
+
+	if (dirData) {
+		init();
+		outputLicense(3);
+		outputLicense(2);
+		contextMenu();
+		installPackage();
+		settings();
+	}
 });
