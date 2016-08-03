@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 "use strict";
+
 var fs = require("fs-extra") || require("fs"),
 	AdmZip = require("adm-zip"),
 	path = require("path"),
@@ -22,11 +23,22 @@ if (!fs.createOutputStream) {
  * @param  {Number} ver Sublime Text的版本号，2或3
  */
 function outputLicense(ver) {
-	var filePath = path.join(dirData, (ver === 3 ? "Local" : "Settings"), "License.sublime_license");
+	var filePath = ver === 3 ? "Local" : "Settings";
+	filePath = path.join(dirData, filePath, "License.sublime_license");
+
 	// 先检查本地是否已有授权文件，已有则不再输出文件
 	fs.stat(filePath, (err, stats) => {
 		if (err || !stats.size) {
-			var data = ver === 3 ? new Buffer(process.platform === "win32" ? "+ADCJxugmgblbEaI/qgHwF/OBYC70TrQQquczJONLet75Trl2VLIKsVYBZW3iinvf6ADtv5BmgjJSGqorYFExlu3E+ijAYt3mB4F/p/Xe7BZtGflowSIBZBvOoX+oAi6WLJv8KsT+wLmHUnw6NNEwC61boDaBf5kmG5O9Z3WdrU6uW6BqneMcZALPvXvpXe0W8JchNoKi33hbkzmm6J8s1+xYva7cYlykWk+g+nEesAiwmGDqwewBpATOoPo0QujKMZjg64AjHSAEzv+56B6sSigEIejdfl14WoF/+2ieLAosxXl3XeNApceO/L+1wiwI8Nl9KMT/n2Vbjny5tRExVnDFfKuBYtkmGo7h+/TerI6tm6D2geIdpMLToKdoQrGKrdc96sD+XaVaUrmmqYMwC64Y/C7cI4H5mk48erEDbZfw2f2o3CwdOZuTPedoQijXrkSht5w/weAbzyH66APxyugZvSoAowHkx0FJF5wrAOOoBOL3xP2DeNuQZWbxKwDjmLWUQ==" : "jWFcOJwg8qRBJCMFOtAyVSqvm588UVJy5uP5QVf1GH4OhKT6XtKgiGEQYBhz8hx6CsGdqXnB8qptAA8laflxUy7WjfckgePVPFZgc1uvTiUs1fn6JITgpzQnXwg62D0vLdPx7yyTk6BCVSx9LKtxVVvU8J9dhZbGPCYreFmuQyBP2PCeLffk0zRDW3gr3UIhLqPCm12K499FJilrX9pJJirQ/Ok88eHQNSFbDi28T1VXo/+cLIfYpDRbXw4sqT42Xaf9nCmA5NYkW15zI9hPJF3Bjpgk9ZHXRSJgcinaTSVd0ov6WvfloDNWXn86rz0lVqL76ySTlt8xJlx/IqxxUCyii+0phePGPCJeCiurTydP1/CcXYfg1DdDKw9Z2T9TX9bC6CyDkdQxIS9rXt45VVvZ/e888OalQiFdfC68OCMqovnpJPDY1kImKXpZ2T02K9iMmVnwl6UkJ1kKL9g6Ul7B+OsvguSlN1VgqZoImZb7wY2UWJOer0cmJBhfvJmW+wNITg==", "base64") : `----- BEGIN LICENSE -----
+			var data;
+			if (ver === 3) {
+				if (process.platform === "win32") {
+					data = "+ADCJxugmgblbEaI/qgHwF/OBYC70TrQQquczJONLet75Trl2VLIKsVYBZW3iinvf6ADtv5BmgjJSGqorYFExlu3E+ijAYt3mB4F/p/Xe7BZtGflowSIBZBvOoX+oAi6WLJv8KsT+wLmHUnw6NNEwC61boDaBf5kmG5O9Z3WdrU6uW6BqneMcZALPvXvpXe0W8JchNoKi33hbkzmm6J8s1+xYva7cYlykWk+g+nEesAiwmGDqwewBpATOoPo0QujKMZjg64AjHSAEzv+56B6sSigEIejdfl14WoF/+2ieLAosxXl3XeNApceO/L+1wiwI8Nl9KMT/n2Vbjny5tRExVnDFfKuBYtkmGo7h+/TerI6tm6D2geIdpMLToKdoQrGKrdc96sD+XaVaUrmmqYMwC64Y/C7cI4H5mk48erEDbZfw2f2o3CwdOZuTPedoQijXrkSht5w/weAbzyH66APxyugZvSoAowHkx0FJF5wrAOOoBOL3xP2DeNuQZWbxKwDjmLWUQ==";
+				} else {
+					data = "jWFcOJwg8qRBJCMFOtAyVSqvm588UVJy5uP5QVf1GH4OhKT6XtKgiGEQYBhz8hx6CsGdqXnB8qptAA8laflxUy7WjfckgePVPFZgc1uvTiUs1fn6JITgpzQnXwg62D0vLdPx7yyTk6BCVSx9LKtxVVvU8J9dhZbGPCYreFmuQyBP2PCeLffk0zRDW3gr3UIhLqPCm12K499FJilrX9pJJirQ/Ok88eHQNSFbDi28T1VXo/+cLIfYpDRbXw4sqT42Xaf9nCmA5NYkW15zI9hPJF3Bjpgk9ZHXRSJgcinaTSVd0ov6WvfloDNWXn86rz0lVqL76ySTlt8xJlx/IqxxUCyii+0phePGPCJeCiurTydP1/CcXYfg1DdDKw9Z2T9TX9bC6CyDkdQxIS9rXt45VVvZ/e888OalQiFdfC68OCMqovnpJPDY1kImKXpZ2T02K9iMmVnwl6UkJ1kKL9g6Ul7B+OsvguSlN1VgqZoImZb7wY2UWJOer0cmJBhfvJmW+wNITg==";
+				}
+				data = new Buffer(data, "base64");
+			} else {
+				data = `----- BEGIN LICENSE -----
 Andrew Weber
 Single User License
 EA7E-855605
@@ -39,6 +51,7 @@ E1D0AE85 A0BBD039 0E9C8D55 E1B89D5D
 5CDB7036 E56DE1C0 EFCC0840 650CD3A6
 B98FC99C 8FAC73EE D2B95564 DF450523
 ------ END LICENSE ------`;
+			}
 			fs.outputFile(filePath, data, err => {
 				if (!err) {
 					console.log("License:\t" + filePath);
@@ -49,6 +62,7 @@ B98FC99C 8FAC73EE D2B95564 DF450523
 }
 
 function contextMenu() {
+
 	// 写入鼠标右键菜单
 	switch (process.platform) {
 		case "win32":
@@ -79,6 +93,7 @@ reg add HKCR\\Directory\\Background\\shell\\sublime_text\\Command /ve /d "\\"${c
 							if (data === newData) {
 								console.log("Context menu exist.");
 							} else {
+
 								// 写文件
 								fs.writeFile(filePath, data.toString().replace(/=gedit\.desktop(\n|$)/g, "=sublime_text.desktop$1"), err => {
 									if (!err) {
@@ -119,18 +134,25 @@ function settings() {
 		},
 		"CSScomb": {
 			"config": {
+
 				// 最后一个属性后是否添加封号
 				"always-semicolon": true,
+
 				// 代码块缩进字符，包括媒体查询和套式规则。
 				"block-indent": "\t",
+
 				// 统一颜色大小写
 				"color-case": "lower",
+
 				// 使用颜色的缩写
 				"color-shorthand": true,
+
 				// 元素选择器的大小写
 				"element-case": "lower",
+
 				// 文件结尾添加或删除空行
 				"eof-newline": true,
+
 				// 要排除的文件
 				"exclude": [
 					".git/**",
@@ -138,40 +160,58 @@ function settings() {
 					"bower_components/**",
 					"node_modules/**"
 				],
+
 				// 添加或删除前导0
 				"leading-zero": false,
+
 				// 引号风格
 				"quotes": "double",
+
 				// 删除空的规则
 				"remove-empty-rulesets": true,
+
 				// 默认排序方式
 				"sort-order-fallback": "abc",
+
 				// 规则中`:`后的字符
 				"space-after-colon": " ",
+
 				// `>`之后的字符(如`p > a`)
 				"space-after-combinator": " ",
+
 				// 在`{`之后的字符
 				"space-after-opening-brace": "\n",
+
 				// 选择符中`,`之后的字符
 				"space-after-selector-delimiter": "\n",
+
 				// `}`之后的字符
 				"space-before-closing-brace": "\n",
+
 				// `:`之前的字符
 				"space-before-colon": "",
+
 				// `>`之前的字符(如`p > a`)
 				"space-before-combinator": " ",
+
 				// `{`之前的字符。
 				"space-before-opening-brace": " ",
+
 				// 选择符中`,`之前的字符
 				"space-before-selector-delimiter": "",
+
 				// 每个属性的之间的分隔符
 				"space-between-declarations": "\n",
+
 				// 去除多余的空白字符
 				"strip-spaces": true,
+
 				// tab的大小
 				"tab-size": false,
+
 				// 取值为0时删除单位
 				"unitless-zero": true,
+
 				// 为私有属性前缀对齐
 				"vendor-prefix-align": false,
 			}
@@ -185,6 +225,7 @@ function settings() {
 			]
 		},
 		"JsFormat": {
+
 			// exposed jsbeautifier options
 			"indent_with_tabs": true,
 
@@ -200,7 +241,7 @@ function settings() {
 				"stylelintrc",
 				"sublime-commands",
 				"sublime-menu",
-				"sublime-settings",
+				"sublime-settings"
 			]
 		},
 		"HTML": {
@@ -215,6 +256,7 @@ function settings() {
 				"ConvertToUTF8",
 				"CSScomb",
 				"DocBlockr",
+				"EditorConfig",
 				"Emmet",
 				"FixMyJS",
 				"HTML-CSS-JS Prettify",
@@ -228,9 +270,10 @@ function settings() {
 				"SideBarEnhancements",
 				"SublimeCodeIntel",
 				"SublimeLinter",
+				"SublimeLinter-contrib-eslint",
 				"SublimeLinter-contrib-htmlhint",
 				"SublimeLinter-contrib-stylelint",
-				"SublimeLinter-jshint",
+				"SublimeLinter-json",
 				"SublimeLinter-php",
 				"Terminal"
 			]
@@ -282,6 +325,7 @@ function settings() {
 			}
 
 			if (err) {
+
 				// 配置文件读取错误则直接使用新配置
 				data = JSON.stringify(cfgs[pakName], null, "\t");
 			} else {
@@ -298,15 +342,18 @@ function settings() {
 				var newDataJson = JSON.stringify(Object.assign(cfgs[pakName], data), null, "\t");
 
 				if (oldData === newDataJson) {
+
 					// 配置未发生变化
 					data = null;
 				} else {
+
 					// newDataJson存入data
 					data = newDataJson;
 				}
 			}
 
 			if (data) {
+
 				// 写文件
 				fs.outputFile(filePath, data, err => {
 					if (!err) {
@@ -977,14 +1024,17 @@ function fixObj(obj, skip) {
 		var hasDonate;
 		obj = obj.filter((subObj) => {
 			if (subObj.caption === "Donate") {
+
 				// 删除“捐助”
 				hasDonate = true;
 				return false;
 			} else if (hasDonate && subObj.caption === "-") {
+
 				// 删除“捐助”后再删除一项分隔符
 				hasDonate = false;
 				return false;
 			} else {
+
 				// 汉化数组项
 				fixObj(subObj, skip);
 				return true;
@@ -992,6 +1042,7 @@ function fixObj(obj, skip) {
 		});
 	} else if (obj && typeof obj === "object") {
 		if (skip && obj.id) {
+
 			// 如果是第三方插件的一级菜单
 			delete obj.caption;
 			delete obj.mnemonic;
@@ -1004,6 +1055,7 @@ function fixObj(obj, skip) {
 				});
 			}
 		} else {
+
 			// 如果是Sublime本身或Package Control的一级菜单，或者子项目
 
 			var caption = /^(.*?)(…)?$/.exec(obj.caption);
@@ -1013,9 +1065,11 @@ function fixObj(obj, skip) {
 				if (prefixCaption && hanDate[prefixCaption[2]]) {
 					hanCaption = caption[1] + " → " + (hanDate[prefixCaption[1]] || prefixCaption[1]) + ": " + hanDate[prefixCaption[2]];
 				} else if (hanDate[caption[1]]) {
+
 					// 普通文案翻译
 					hanCaption = hanDate[caption[1]];
 				} else if (obj.args && obj.args.encoding) {
+
 					// 语言名称翻译
 					hanCaption = caption[1].replace(/^([A-Z]+\w+(?:\s+[A-Z]+\w+)*)(\s\(.*?\))$/, (s, langName, code) => {
 						if (langHan[langName]) {
@@ -1027,6 +1081,7 @@ function fixObj(obj, skip) {
 				}
 			}
 			if (!hanCaption && obj.command && commandHan[obj.command]) {
+
 				// 按命令翻译
 				hanCaption = commandHan[obj.command];
 				if (typeof hanCaption === "object" && obj.args) {
@@ -1131,12 +1186,16 @@ function unzip(dir) {
 
 function init() {
 	dirPackages = path.join(dirData, "Packages");
+
 	// Sublime Text 3/Packages
 	unzip("Packages");
+
 	// Sublime Text 2/Pristine Packages
 	unzip("Pristine Packages");
+
 	// ./Data/Pristine Packages
 	unzip(path.join(dirData, "Pristine Packages"));
+
 	// ./Data/Installed Packages
 	unzip(path.join(dirData, "Installed Packages"));
 
