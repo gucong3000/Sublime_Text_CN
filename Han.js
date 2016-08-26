@@ -75,7 +75,7 @@ reg add HKCR\\Directory\\shell\\sublime_text /v Icon /d "\\"${cmd}\\",0" /f
 reg add HKCR\\Directory\\shell\\sublime_text\\Command /ve /d "\\"${cmd}\\" \\"%1^\\"" /f
 reg add HKCR\\Directory\\Background\\shell\\sublime_text /ve /d "添加到Sublime Text工程项目" /f
 reg add HKCR\\Directory\\Background\\shell\\sublime_text /v Icon /d "\\"${cmd}\\",0" /f
-reg add HKCR\\Directory\\Background\\shell\\sublime_text\\Command /ve /d "\\"${cmd}\\" \\"%V^\\"" /f`.replace(/(\r?\n)+/g, "&&");
+reg add HKCR\\Directory\\Background\\shell\\sublime_text\\Command /ve /d "\\"${cmd}\\" --add \\"%V^\\"" /f`.replace(/(\r?\n)+/g, "&&");
 			require("child_process").exec(cmd, (error) => {
 				if (!error) {
 					console.log("Context menu write done.");
@@ -219,9 +219,14 @@ function settings() {
 		"FixMyJS": {
 			"fixOnSave": true
 		},
-		"JavaScript": {
+		"JavaScript (Babel)": {
 			"extensions": [
-				"es6"
+				"js",
+				"es5",
+				"es6",
+				"es7",
+				".babel",
+				".babel.js",
 			]
 		},
 		"JsFormat": {
@@ -252,6 +257,7 @@ function settings() {
 		"Package Control": {
 			"installed_packages": [
 				"Autoprefixer",
+				"Babel",
 				"BracketHighlighter",
 				"ConvertToUTF8",
 				"CSScomb",
