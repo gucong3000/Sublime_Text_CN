@@ -72,7 +72,7 @@ reg add "HKCR\\*\\shell\\Open with Sublime Text" /v Icon /d "\\"${cmd}\\",0" /f
 reg add "HKCR\\*\\shell\\Open with Sublime Text\\Command" /ve /d "\\"${cmd}\\" \\"%1^\\"" /f
 reg add HKCR\\Directory\\shell\\sublime_text /ve /d "添加到Sublime Text工程项目" /f
 reg add HKCR\\Directory\\shell\\sublime_text /v Icon /d "\\"${cmd}\\",0" /f
-reg add HKCR\\Directory\\shell\\sublime_text\\Command /ve /d "\\"${cmd}\\" \\"%1^\\"" /f
+reg add HKCR\\Directory\\shell\\sublime_text\\Command /ve /d "\\"${cmd}\\" --add \\"%1^\\"" /f
 reg add HKCR\\Directory\\Background\\shell\\sublime_text /ve /d "添加到Sublime Text工程项目" /f
 reg add HKCR\\Directory\\Background\\shell\\sublime_text /v Icon /d "\\"${cmd}\\",0" /f
 reg add HKCR\\Directory\\Background\\shell\\sublime_text\\Command /ve /d "\\"${cmd}\\" --add \\"%V^\\"" /f`.replace(/(\r?\n)+/g, "&&");
