@@ -251,6 +251,8 @@ function settings() {
 		},
 		"HTML": {
 			"extensions": [
+				"hhc",
+				"hhk",
 				"htc"
 			]
 		},
