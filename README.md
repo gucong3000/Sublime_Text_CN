@@ -1,6 +1,8 @@
 [Sublime Text](http://www.sublimetext.com/) CN
 ===============
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/gucong3000/Sublime_Text_CN.svg)](https://greenkeeper.io/)
+
 >Sublime Text 2/3 Chinese language pack
 
 >Sublime Text 2/3 简体中文语言包
