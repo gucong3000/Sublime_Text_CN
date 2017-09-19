@@ -23,7 +23,7 @@
   "dependencies": {
     "adm-zip": "^0.4.7",
     "fs-extra": "^4.0.0",
-    "request": "^2.81.0"
+    "request": "^2.82.0"
   },
   "devDependencies": {},
   "bugs": {
