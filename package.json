@@ -21,7 +21,7 @@
     }
   ],
   "dependencies": {
-    "adm-zip": "^0.4.9",
+    "adm-zip": "^0.4.10",
     "fs-extra": "^6.0.0",
     "request": "^2.85.0"
   },
